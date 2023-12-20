@@ -8,7 +8,7 @@ function Contact() {
           <h2>Contact Us</h2>
           <p>Address: 787 West Poplar Ave, Collierville, TN 38017</p>
           <p>Phone: (901) 854-8880</p>
-          <p>Email: meizhang152@yahoo.com</p>
+          <p>Email: yums.chinese.collierville@gmail.com</p>
         </div>
         <div className="contact-form">
           <h3>Send us a message</h3>
