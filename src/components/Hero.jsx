@@ -13,10 +13,12 @@ function Hero() {
   return (
     <section className="hero" style={{ backgroundImage: `url(${heroImage})` }}>
       <div className="hero-content">
-        <h1>Savor the Flavor of Authentic Chinese Cuisine</h1>
-        <button className="order-now" onClick={handleOrderNowClick}>
-          Order Now
-        </button>
+        <h1>Savor the Flavor of Chinese Cuisine</h1>
+        <a href="/menu">
+          <button className="order-now" onClick={handleOrderNowClick}>
+            Order Now
+          </button>
+        </a>
       </div>
     </section>
   );

@@ -6,9 +6,9 @@ function Contact() {
       <section className="contact">
         <div className="contact-info">
           <h2>Contact Us</h2>
-          <p>Address: 123 Yum St, Collierville, TN 38017</p>
-          <p>Phone: (901) 123-4567</p>
-          <p>Email: info@yumsrestaurant.com</p>
+          <p>Address: 787 West Poplar Ave, Collierville, TN 38017</p>
+          <p>Phone: (901) 854-8880</p>
+          <p>Email: meizhang152@yahoo.com</p>
         </div>
         <div className="contact-form">
           <h3>Send us a message</h3>

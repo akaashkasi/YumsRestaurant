@@ -13,8 +13,8 @@ function Footer() {
         </section>
         <section className="footer-section">
           <h4>Contact</h4>
-          <p>123 Yum St, Collierville, TN 38017</p>
-          <p>(901) 123-4567</p>
+          <p>787 West Poplar Ave, Collierville, TN 38017</p>
+          <p>(901) 854-8880</p>
         </section>
         <section className="footer-section">
           <h4>Follow Us</h4>
