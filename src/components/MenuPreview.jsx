@@ -19,7 +19,7 @@ function MenuPreview() {
         {dishes.map((dish) => (
           <div key={dish.id} className="dish">
             <img src={dish.image} alt={dish.title} />
-            <h3>{dish.title}</h3>
+            <h3 style={{color: "black"}}>{dish.title}</h3>
           </div>
         ))}
       </div>

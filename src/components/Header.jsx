@@ -1,13 +1,26 @@
+import React, { useState } from 'react';
 import './css/Header.css';
-import logo from '../assets/images/logo.png'; // Path to your logo image
+import logo from '../assets/images/logo.png';
 
 function Header() {
+  const [isNavVisible, setIsNavVisible] = useState(false);
+
+  const toggleNav = () => {
+    console.log("Toggling Nav: Current state is ", !isNavVisible);
+    setIsNavVisible(!isNavVisible);
+  };
+
   return (
     <header className="header">
       <div className="header-brand">
         <img src={logo} alt="Yum's Restaurant" />
       </div>
-      <nav className="header-nav">
+      <div className="hamburger" onClick={toggleNav}>
+        <div className="hamburger-line"></div>
+        <div className="hamburger-line"></div>
+        <div className="hamburger-line"></div>
+      </div>
+      <nav className={`header-nav ${isNavVisible ? 'visible' : ''}`}>
         <ul>
           <li><a href="/">Home</a></li>
           <li><a href="/menu">Menu</a></li>

@@ -18,6 +18,10 @@
     background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
     border-radius: 10px;
   }
+
+  .hero-content p {
+    font-weight: bold;
+  }
   
   .hero h1 {
     font-size: 3rem; /* Large text size for the hero heading */
