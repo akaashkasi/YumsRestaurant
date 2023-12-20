@@ -1,0 +1,62 @@
+/* About.css */
+.about {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 2rem;
+    background-color: #fff7f0; /* A light warm background color */
+  }
+  
+  .about-header {
+    text-align: center;
+  }
+  
+  .about-header h1 {
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .about-body {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .about-image {
+    width: 100%;
+    max-width: 350px; /* Adjust based on your design */
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .about-content {
+    max-width: 600px;
+    text-align: left;
+  }
+  
+  .about-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 1rem;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .about-body {
+      flex-direction: column;
+    }
+  
+    .about-image {
+      max-width: 100%;
+    }
+  
+    .about-content {
+      text-align: center;
+    }
+  }
+  

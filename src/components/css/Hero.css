@@ -1,0 +1,56 @@
+/* Hero.css */
+.hero {
+    position: relative;
+    height: 500px; /* Adjust the height as necessary */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  .hero-content {
+    text-align: center;
+    max-width: 600px; /* Adjust width as necessary */
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    border-radius: 10px;
+  }
+  
+  .hero h1 {
+    font-size: 3rem; /* Large text size for the hero heading */
+    margin-bottom: 1rem;
+  }
+  
+  .order-now {
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #e44d26; /* Theme color for the button */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .order-now:hover {
+    background-color: #cb3a21; /* Darker shade for hover effect */
+  }
+  
+  /* Add responsive adjustments as necessary */
+  @media (max-width: 768px) {
+    .hero {
+      height: 300px; /* Adjust the height for smaller devices */
+    }
+    
+    .hero h1 {
+      font-size: 2rem; /* Smaller text size for the hero heading on mobile */
+    }
+    
+    .order-now {
+      font-size: 1.2rem; /* Adjust button text size for mobile */
+    }
+  }
+  
