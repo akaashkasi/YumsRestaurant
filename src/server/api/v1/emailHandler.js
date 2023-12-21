@@ -22,7 +22,7 @@ const emailHandler = (app) => {
 
         const mailOptions = {
             from: process.env.EMAIL_USER,
-            to: 'akaashkasi@gmail.com',
+            to: 'yums.chinese.collierville@gmail.com',
             subject: `New message from ${req.body.name}`,
             text: `You received a new message from ${req.body.email} (Phone: ${req.body.phone}): ${req.body.message}`,
         };
