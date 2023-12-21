@@ -29,6 +29,13 @@
   .location a:hover {
     text-decoration: underline; /* Underline on hover */
   }
+
+  .location .current-day {
+    background-color: lightgray; /* Subtle highlight color */
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
   
   .location-map iframe {
     width: 100%;

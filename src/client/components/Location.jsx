@@ -11,6 +11,9 @@ function Location() {
     'Saturday': '10:30 AM - 10:00 PM'
   };
 
+  const currentDate = new Date();
+  const currentDay = currentDate.toLocaleDateString('en-US', { weekday: 'long' });
+
   const mapIframe = {
     __html: `<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3245.188994687218!2d-89.67829718477492!3d35.04344158034769!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x887f80be3b9d5b4b%3A0x2d1e9a2c6ad0a6ae!2s787%20W%20Poplar%20Ave%2C%20Collierville%2C%20TN%2038017%2C%20USA!5e0!3m2!1sen!2s!4v1645231123456" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>`
   };
@@ -24,7 +27,7 @@ function Location() {
 
       <h2>Hours of Operation</h2>
       {Object.entries(storeHours).map(([day, hours]) => (
-        <p key={day}>{day}: {hours}</p>
+        <p key={day} className={day === currentDay ? 'current-day' : ''}>{day}: {hours}</p>
       ))}
 
       <div className="location-map" dangerouslySetInnerHTML={mapIframe} />
