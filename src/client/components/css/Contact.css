@@ -65,3 +65,10 @@
     }
   }
   
+  .order-change-notice p {
+    margin-top: 20px; /* Add some space above the message */
+    color: #d9534f; /* A color that stands out, like a warning red */
+    font-style: italic; /* Optional: make it italic to emphasize */
+    text-align: center; /* Center-align the text */
+    margin-bottom: 20px; /* Space below the message */
+  }

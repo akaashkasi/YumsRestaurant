@@ -29,11 +29,11 @@ function Contact() {
             }
 
             await response.json();
-            setFormData({ name: '', email: '', phone: '', message: '' }); // Reset form fields
-            setSuccessMessage('Message has been sent. Thanks!'); // Set success message
+            setFormData({ name: '', email: '', phone: '', message: '' }); 
+            setSuccessMessage('Message has been sent. Thanks!'); 
         } catch (error) {
             console.error('Error:', error);
-            setSuccessMessage(''); // Clear success message in case of error
+            setSuccessMessage(''); 
         }
     };
 
@@ -82,7 +82,11 @@ function Contact() {
                     <button type="submit">Submit</button>
                 </form>
                 {successMessage && <div className="success-message">{successMessage}</div>}
+                <div className="order-change-notice">
+                    <p>If you need to make a change to your order, please call us directly as we may not see your email in time!</p>
+                </div>
             </div>
+            
         </section>
     );
 }
