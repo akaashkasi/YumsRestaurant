@@ -1,6 +1,6 @@
 // Assuming you've added the image to your project in the src/assets/images folder
 import './css/Hero.css';
-import heroImage from '../assets/images/hero-dish.jpg'; // Update the path to your hero image
+import heroImage from '../../assets/images/hero-dish.jpg'; // Update the path to your hero image
 
 function Hero() {
   const handleOrderNowClick = () => {

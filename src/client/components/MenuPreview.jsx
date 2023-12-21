@@ -1,7 +1,7 @@
 import '../components/css/MenuPreview.css';
-import dishImage1 from '../assets/images/kung_pao_chicken.jpg'; // Replace with your actual image paths
-import dishImage2 from '../assets/images/mapo_tofu.jpg';
-import dishImage3 from '../assets/images/szechuan_beef.jpg';
+import dishImage1 from '../../assets/images/kung_pao_chicken.jpg'; // Replace with your actual image paths
+import dishImage2 from '../../assets/images/mapo_tofu.jpg';
+import dishImage3 from '../../assets/images/szechuan_beef.jpg';
 
 function MenuPreview() {
   // You could potentially fetch these from an API or define them here
