@@ -23,6 +23,10 @@
     font-size: 3rem; /* Large text size for the hero heading */
     margin-bottom: 1rem;
   }
+
+  .hero-content p {
+    font-weight: bold;
+  }
   
   .order-now {
     font-size: 1.5rem;
