@@ -47,4 +47,23 @@
       padding: 0.5rem 0; /* More vertical padding for mobile */
     }
   }
+
+  .cart-icon {
+    position: relative;
+    font-size: 1.5rem; /* Adjust the size of the cart icon */
+  }
+  
+  .cart-counter {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #e44d26;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 0.75rem;
+    line-height: 1;
+    min-width: 20px;
+    text-align: center;
+  }
   

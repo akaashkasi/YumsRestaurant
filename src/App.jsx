@@ -7,6 +7,7 @@ import MenuPreview from './client/components/MenuPreview';
 import Contact from './client/components/Contact';
 import Location from './client/components/Location';
 import Footer from './client/components/Footer';
+import Cart from './client/components/Cart';
 import './App.css'
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/location" element={<Location />} />
           <Route path="/" element={<Hero />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
         <Footer />
       </div>
