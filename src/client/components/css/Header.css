@@ -1,0 +1,50 @@
+/* Header.css */
+.header {
+    background-color: #333; /* Dark background for the header */
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 2rem; /* Add padding on top and bottom, and more on the sides */
+  }
+  
+  .header-brand img {
+    height: 60px; /* Adjust size as needed */
+  }
+  
+  .header-nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .header-nav li {
+    padding: 0 1rem; /* Space out the navigation items */
+  }
+  
+  .header-nav a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .header-nav a:hover {
+    color: #e44d26; /* Color when hovering over links */
+  }
+  
+  /* Responsive adjustments for mobile view */
+  @media (max-width: 768px) {
+    .header {
+      flex-direction: column;
+    }
+  
+    .header-nav ul {
+      flex-direction: column;
+    }
+  
+    .header-nav li {
+      padding: 0.5rem 0; /* More vertical padding for mobile */
+    }
+  }
+  

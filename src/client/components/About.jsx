@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import '../components/css/About.css';
-import restaurantImage from '../assets/images/yums.jpg'; 
+import restaurantImage from '../../assets/images/yums.jpg'; 
 
 function About() {
 
@@ -51,7 +51,7 @@ function About() {
           <img src={restaurantImage} alt="Inside Yum's Chinese Restaurant" className="about-image"/>
           {/* Hours of Operation and Location */}
           <div className="about-hours-location">
-            <p style={{color: "red"}}>Today's Hours ({currentFullDate})<br/>{storeHours[currentDay] || 'Closed'}</p>
+            <p style={{color: "red"}}>Today&apos;s Hours ({currentFullDate})<br/>{storeHours[currentDay] || 'Closed'}</p>
             <button className="view-all-hours" onClick={toggleHours}>View All Hours</button>
             <p className="current-time">Current local time: {currentHours}</p>
 

@@ -1,12 +1,13 @@
 // App.js
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import About from './components/About';
-import MenuPreview from './components/MenuPreview';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
-import './App.css';
+import Header from './client/components/Header';
+import Hero from './client/components/Hero';
+import About from './client/components/About';
+import MenuPreview from './client/components/MenuPreview';
+import Contact from './client/components/Contact';
+// import Location from './client/components/Location';
+import Footer from './client/components/Footer';
+import './App.css'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/menu" element={<MenuPreview />} />
           <Route path="/contact" element={<Contact />} />
+          {/* <Route path="/location" element={<Location />} /> */}
           <Route path="/" element={<Hero />} />
         </Routes>
         <Footer />
