@@ -1,4 +1,3 @@
-// components/Contact.jsx
 import { useState } from 'react';
 import '../components/css/Contact.css';
 
@@ -10,16 +9,15 @@ function Contact() {
         message: '',
     });
 
+    const [successMessage, setSuccessMessage] = useState('');
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        console.log('Form data to send:', formData);
-        try{
-            // Example: POST request to your server endpoint
+        try {
             const response = await fetch('/api/send-email', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -30,10 +28,12 @@ function Contact() {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            const responseData = await response.json();
-            console.log(responseData);
-        }catch (error) {
+            await response.json();
+            setFormData({ name: '', email: '', phone: '', message: '' }); // Reset form fields
+            setSuccessMessage('Message has been sent. Thanks!'); // Set success message
+        } catch (error) {
             console.error('Error:', error);
+            setSuccessMessage(''); // Clear success message in case of error
         }
     };
 
@@ -52,6 +52,7 @@ function Contact() {
                         type="text"
                         name="name"
                         placeholder="Your Name"
+                        value={formData.name}
                         required
                         onChange={handleChange}
                     />
@@ -59,6 +60,7 @@ function Contact() {
                         type="email"
                         name="email"
                         placeholder="Your Email"
+                        value={formData.email}
                         required
                         onChange={handleChange}
                     />
@@ -66,17 +68,20 @@ function Contact() {
                         type="text"
                         name="phone"
                         placeholder="Your Phone Number"
+                        value={formData.phone}
                         required
                         onChange={handleChange}
                     />
                     <textarea
                         name="message"
                         placeholder="Your Message"
+                        value={formData.message}
                         required
                         onChange={handleChange}
                     ></textarea>
                     <button type="submit">Submit</button>
                 </form>
+                {successMessage && <div className="success-message">{successMessage}</div>}
             </div>
         </section>
     );
