@@ -1,23 +1,26 @@
-import express from 'express';
-import Menu from './menuModel.js'; // ensure this path is correct
-import connectDB from './mongodb.js';
-
-connectDB();
-const router = express.Router();
-
-// Route to get menu by type (Chinese or American)
-router.get('/api/menu/:menuType', async (req, res) => {
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import connectDB from "./mongodb.js"; // Adjust the path
+import Menu from "./menuModel.js"; // Adjust the path
+dotenv.config();
+const queryMenus = async () => {
   try {
-    const menuType = req.params.menuType;
-    const menu = await Menu.findOne({ menuType });
-    if (!menu) {
-      return res.status(404).json({ message: 'Menu not found' });
-    }
-    res.json(menu);
-  } catch (error) {
-    console.error('Error fetching menu:', error);
-    res.status(500).json({ message: 'Error fetching menu' });
-  }
-});
+    await connectDB(); // Connect to the database
+    const allMenus = await Menu.find();
+    console.log("All menus:", allMenus);
 
-export default router;
+    // Query for the Chinese menu
+    const chineseMenu = await Menu.findOne({ menuType: "Chinese" });
+    // console.log("Chinese Menu:", JSON.stringify(chineseMenu, null, 2));
+
+    // Query for the American menu
+    const americanMenu = await Menu.findOne({ menuType: "American" });
+    // console.log("American Menu:", JSON.stringify(americanMenu, null, 2));
+    return allMenus;
+  } catch (error) {
+    console.error("Error:", error);
+  } finally {
+    mongoose.disconnect();
+  }
+};
+export default queryMenus;

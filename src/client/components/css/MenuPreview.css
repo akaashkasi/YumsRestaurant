@@ -1,68 +1,225 @@
-.menu {
-  padding: 20px;
-  background-color: #f5f5f5;
+/* Global Styles */
+body, button, input, select {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
 }
 
-.menu-tabs {
+/* Color Scheme Variables */
+:root {
+  --primary-color: #4a90e2;
+  --secondary-color: #ff6b6b;
+  --background-color: #f4f4f4;
+  --text-color: #333;
+  --border-color: #ddd;
+}
+
+/* Container */
+.menu-preview-container {
   display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
+  justify-content: space-between;
+  padding: 2rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
-.menu-tabs button {
-  background-color: #343a40;
-  border: none;
-  padding: 10px 20px;
-  margin: 0 5px;
+/* Category Sidebar */
+.menu-categories {
+  flex-basis: 20%;
+  margin-right: 2rem;
+}
+
+.category-button {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  margin-bottom: 0.5rem;
+  background: white;
+  border: 1px solid var(--border-color);
+  text-align: left;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.menu-tabs button.active {
-  background-color: #e44d26;
+.category-button:hover, .category-button.active {
+  background: var(--primary-color);
   color: white;
 }
 
-.menu-categories {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Two columns */
-  gap: 20px; /* Space between the boxes */
+/* Menu Items */
+.menu-items {
+  flex-basis: 50%;
+  margin-right: 2rem;
 }
 
-.category {
-  background-color: white;
-  border: 1px solid #ddd;
+.item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.item-name {
+  flex: 1 1 100%;
+  font-weight: bold;
+}
+
+.item-price {
+  margin-left: 1rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+/* Buttons */
+button {
+  padding: 0.5rem 1rem;
+  border: none;
   border-radius: 4px;
-  padding: 15px;
-  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.category h3 {
-  margin: 0;
-  color: #333;
+.add-to-cart-button {
+  background-color: var(--primary-color);
+  color: white;
 }
 
-.menu-categories .category {
-  background: #f5f5f5; /* Light grey background */
-  border-radius: 10px; /* Rounded corners */
-  padding: 20px; /* Padding inside the boxes */
-  position: relative; /* Positioning context for the arrow */
-  white-space: nowrap; /* Prevents text from wrapping */
-  overflow: hidden; /* Hide overflow */
-  text-overflow: ellipsis; /* Add ellipsis if text is too long */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+.add-to-cart-button:hover {
+  background-color: darken(var(--primary-color), 10%);
 }
 
-.menu-categories .category:hover {
-  background-color: lightgray; /* Change background color on hover */
+.remove-from-cart-button {
+  background-color: var(--secondary-color);
+  color: white;
 }
 
-.menu-categories .category::after {
-  content: '>'; /* Pseudo-element for the arrow */
-  position: absolute;
-  right: 20px; /* Position the arrow to the right */
-  top: 50%; /* Center vertically */
-  transform: translateY(-50%); /* Ensure it's centered */
-  font-size: 1.5em; /* Make the arrow larger */
-  color: #333; /* Arrow color */
+.remove-from-cart-button:hover {
+  background-color: darken(var(--secondary-color), 10%);
+}
+
+/* Input and Select Styles */
+input[type="number"], select {
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+input[type="number"]:focus, select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* Order Summary */
+.order-summary {
+  flex-basis: 25%;
+  padding: 1rem;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.order-total, .tax-amount, .tip-amount {
+  margin-top: 1rem;
+}
+
+.order-total {
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: var(--primary-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .menu-preview-container {
+    flex-direction: column;
+  }
+
+  .menu-categories, .menu-items, .order-summary {
+    flex-basis: 100%;
+    margin-right: 0;
+    margin-bottom: 2rem;
+  }
+}
+
+.tax-amount, .tip-amount, .total-amount {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tax-amount, .tip-amount {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.total-amount {
+  margin-top: 1rem;
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: var(--primary-color);
+  border-bottom: none;
+}
+
+/* Styling for labels and values separately */
+.tax-label, .tip-label, .total-label {
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.tax-value, .tip-value, .total-value {
+  font-weight: normal;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .tax-amount, .tip-amount, .total-amount {
+    font-size: 1rem;
+  }
+}
+
+.tip-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* Ensure it's above other elements */
+}
+
+.tip-options button {
+  margin: 5px;
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.tip-options button:hover {
+  background-color: darken(var(--primary-color), 10%);
+}
+
+.tip-options input {
+  padding: 10px;
+  margin-right: 5px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
 }
