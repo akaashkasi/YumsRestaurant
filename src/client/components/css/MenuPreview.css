@@ -1,46 +1,68 @@
-/* MenuPreview.css */
-.menu-preview {
-    text-align: center;
-    padding: 4rem 0;
-  }
-  
-  .menu-preview h2 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    color: #333;
-  }
-  
-  .dishes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-    padding: 0 1.5rem;
-  }
-  
-  .dish {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .dish img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .dish h3 {
-    font-size: 1.2rem;
-    padding: 0.5rem;
-    background-color: #f8f8f8;
-    margin: 0;
-  }
-  
-  /* Add responsive styles as needed */
-  @media (max-width: 768px) {
-    .dishes-grid {
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
-  }
-  
+.menu {
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.menu-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.menu-tabs button {
+  background-color: #343a40;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.menu-tabs button.active {
+  background-color: #e44d26;
+  color: white;
+}
+
+.menu-categories {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  gap: 20px; /* Space between the boxes */
+}
+
+.category {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px;
+  text-align: center;
+}
+
+.category h3 {
+  margin: 0;
+  color: #333;
+}
+
+.menu-categories .category {
+  background: #f5f5f5; /* Light grey background */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px; /* Padding inside the boxes */
+  position: relative; /* Positioning context for the arrow */
+  white-space: nowrap; /* Prevents text from wrapping */
+  overflow: hidden; /* Hide overflow */
+  text-overflow: ellipsis; /* Add ellipsis if text is too long */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+}
+
+.menu-categories .category:hover {
+  background-color: lightgray; /* Change background color on hover */
+}
+
+.menu-categories .category::after {
+  content: '>'; /* Pseudo-element for the arrow */
+  position: absolute;
+  right: 20px; /* Position the arrow to the right */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Ensure it's centered */
+  font-size: 1.5em; /* Make the arrow larger */
+  color: #333; /* Arrow color */
+}
