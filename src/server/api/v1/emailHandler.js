@@ -8,9 +8,6 @@ dotenv.config();
 const emailHandler = (app) => {
     app.post('/api/send-email', async (req, res) => {
         console.log("RECEIVED POST REQUEST", req.body);
-
-        console.log(process.env.EMAIL_USER); // Should log the email user
-        console.log(process.env.EMAIL_PASSWORD); // Should log the email password
         // Set up your SMTP server settings here
         const transporter = nodemailer.createTransport({
             service: 'gmail',
