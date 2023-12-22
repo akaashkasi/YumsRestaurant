@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import emailHandler from './v1/emailHandler.js';
 import process from 'process';
-import connectDB from './mongodb.js';
+import queryMenus from './v1/mongoQuery.js';
 
 const app = express();
 app.use(cors());
@@ -16,4 +16,4 @@ app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
-connectDB();
+queryMenus();
