@@ -108,10 +108,30 @@ function MenuPreview() {
   const TipPopup = () => (
     <div className="tip-popup">
       <div className="tip-options">
-        <button onClick={() => handleTipSelection('none')}>No Tip</button>
-        <button onClick={() => handleTipSelection('10%')}>10%</button>
-        <button onClick={() => handleTipSelection('15%')}>15%</button>
-        <button onClick={() => handleTipSelection('20%')}>20%</button>
+        <button
+          className={selectedTipOption === 'none' ? 'selected' : ''}
+          onClick={() => handleTipSelection('none')}
+        >
+          No Tip
+        </button>
+        <button
+          className={selectedTipOption === '10%' ? 'selected' : ''}
+          onClick={() => handleTipSelection('10%')}
+        >
+          10%
+        </button>
+        <button
+          className={selectedTipOption === '15%' ? 'selected' : ''}
+          onClick={() => handleTipSelection('15%')}
+        >
+          15%
+        </button>
+        <button
+          className={selectedTipOption === '20%' ? 'selected' : ''}
+          onClick={() => handleTipSelection('20%')}
+        >
+          20%
+        </button>
         <div>
           <input 
             ref={customTipInputRef}
