@@ -1,6 +1,5 @@
 {
   "name": "yumsrestaurant",
-  "proxy": "http://localhost:5174",
   "private": true,
   "version": "0.0.0",
   "type": "module",
