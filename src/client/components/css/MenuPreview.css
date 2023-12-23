@@ -104,7 +104,7 @@ button {
 }
 
 .remove-from-cart-button:hover {
-  background-color: darken(var(--secondary-color), 10%);
+  background-color: #fc0202; /* Darker red */
 }
 
 /* Input and Select Styles */
