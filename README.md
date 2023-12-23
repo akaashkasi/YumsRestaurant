@@ -29,5 +29,6 @@ To create a production build, run:
 npm run build
 ```
 
-## Technologies used 
+## Technologies used
+
 MERN

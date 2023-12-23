@@ -1,5 +1,8 @@
 /* Global Styles */
-body, button, input, select {
+body,
+button,
+input,
+select {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
 }
@@ -36,10 +39,13 @@ body, button, input, select {
   border: 1px solid var(--border-color);
   text-align: left;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 
-.category-button:hover, .category-button.active {
+.category-button:hover,
+.category-button.active {
   background: var(--primary-color);
   color: white;
 }
@@ -60,7 +66,7 @@ body, button, input, select {
   background: white;
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .item-name {
@@ -102,7 +108,8 @@ button {
 }
 
 /* Input and Select Styles */
-input[type="number"], select {
+input[type='number'],
+select {
   padding: 0.5rem;
   margin-top: 0.5rem;
   border: 1px solid var(--border-color);
@@ -110,7 +117,8 @@ input[type="number"], select {
   transition: border-color 0.3s ease;
 }
 
-input[type="number"]:focus, select:focus {
+input[type='number']:focus,
+select:focus {
   outline: none;
   border-color: var(--primary-color);
 }
@@ -122,7 +130,7 @@ input[type="number"]:focus, select:focus {
   background: white;
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .order-item {
@@ -133,7 +141,9 @@ input[type="number"]:focus, select:focus {
   border-bottom: 1px solid var(--border-color);
 }
 
-.order-total, .tax-amount, .tip-amount {
+.order-total,
+.tax-amount,
+.tip-amount {
   margin-top: 1rem;
 }
 
@@ -149,19 +159,24 @@ input[type="number"]:focus, select:focus {
     flex-direction: column;
   }
 
-  .menu-categories, .menu-items, .order-summary {
+  .menu-categories,
+  .menu-items,
+  .order-summary {
     flex-basis: 100%;
     margin-right: 0;
     margin-bottom: 2rem;
   }
 }
 
-.tax-amount, .tip-amount, .total-amount {
+.tax-amount,
+.tip-amount,
+.total-amount {
   padding: 0.5rem 0;
   border-bottom: 1px solid var(--border-color);
 }
 
-.tax-amount, .tip-amount {
+.tax-amount,
+.tip-amount {
   font-size: 0.95rem;
   color: #555;
 }
@@ -175,18 +190,24 @@ input[type="number"]:focus, select:focus {
 }
 
 /* Styling for labels and values separately */
-.tax-label, .tip-label, .total-label {
+.tax-label,
+.tip-label,
+.total-label {
   font-weight: bold;
   margin-right: 0.5rem;
 }
 
-.tax-value, .tip-value, .total-value {
+.tax-value,
+.tip-value,
+.total-value {
   font-weight: normal;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .tax-amount, .tip-amount, .total-amount {
+  .tax-amount,
+  .tip-amount,
+  .total-amount {
     font-size: 1rem;
   }
 }
@@ -222,4 +243,14 @@ input[type="number"]:focus, select:focus {
   margin-right: 5px;
   border: 1px solid var(--border-color);
   border-radius: 4px;
+}
+
+.tip-options button.selected {
+  background-color: #4caf50; /* Green background for selected button */
+  color: white;
+}
+
+.tip-error {
+  color: red;
+  margin-top: 10px;
 }

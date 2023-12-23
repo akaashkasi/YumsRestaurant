@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './client/components/Header';
 import Hero from './client/components/Hero';
@@ -18,10 +18,14 @@ function App() {
     <Router>
       <div className="App">
         <Header />
-        {isLoading && <LoadingSpinner />} {/* Conditional rendering of the spinner */}
+        {isLoading && <LoadingSpinner />}{' '}
+        {/* Conditional rendering of the spinner */}
         <Routes>
           <Route path="/about" element={<About />} />
-          <Route path="/menu" element={<MenuPreview setIsLoading={setIsLoading}/>} />
+          <Route
+            path="/menu"
+            element={<MenuPreview setIsLoading={setIsLoading} />}
+          />
           <Route path="/contact" element={<Contact />} />
           <Route path="/location" element={<Location />} />
           <Route path="/" element={<Hero />} />

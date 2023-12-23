@@ -1,74 +1,74 @@
 /* components/Contact.css */
 .contact {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 50px;
-    background-color: #fff;
-    color: #333;
-  }
-  
-  .contact-info {
-    flex: 1;
-    margin-right: 50px; /* Adjust as needed */
-  }
-  
-  .contact-form {
-    flex: 1;
-  }
-  
-  .contact h2,
-  .contact h3 {
-    margin-bottom: 20px;
-  }
-  
-  .contact p {
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-  
-  .contact form {
-    display: flex;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 50px;
+  background-color: #fff;
+  color: #333;
+}
+
+.contact-info {
+  flex: 1;
+  margin-right: 50px; /* Adjust as needed */
+}
+
+.contact-form {
+  flex: 1;
+}
+
+.contact h2,
+.contact h3 {
+  margin-bottom: 20px;
+}
+
+.contact p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.contact form {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact form input,
+.contact form textarea {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.contact form button {
+  padding: 10px;
+  background-color: #e44d26;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.contact form button:hover {
+  background-color: #cb3a21;
+}
+
+@media (max-width: 768px) {
+  .contact {
     flex-direction: column;
   }
-  
-  .contact form input,
-  .contact form textarea {
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+
+  .contact-info {
+    margin-bottom: 30px;
+    margin-right: 0;
   }
-  
-  .contact form button {
-    padding: 10px;
-    background-color: #e44d26;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .contact form button:hover {
-    background-color: #cb3a21;
-  }
-  
-  @media (max-width: 768px) {
-    .contact {
-      flex-direction: column;
-    }
-  
-    .contact-info {
-      margin-bottom: 30px;
-      margin-right: 0;
-    }
-  }
-  
-  .order-change-notice p {
-    margin-top: 20px; /* Add some space above the message */
-    color: #d9534f; /* A color that stands out, like a warning red */
-    font-style: italic; /* Optional: make it italic to emphasize */
-    text-align: center; /* Center-align the text */
-    margin-bottom: 20px; /* Space below the message */
-  }
+}
+
+.order-change-notice p {
+  margin-top: 20px; /* Add some space above the message */
+  color: #d9534f; /* A color that stands out, like a warning red */
+  font-style: italic; /* Optional: make it italic to emphasize */
+  text-align: center; /* Center-align the text */
+  margin-bottom: 20px; /* Space below the message */
+}

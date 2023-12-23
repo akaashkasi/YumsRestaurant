@@ -9,6 +9,7 @@ function MenuPreview() {
   const [isTipPopupOpen, setIsTipPopupOpen] = useState(false);
   const [temporaryTipAmount, setTemporaryTipAmount] = useState(0);
   const [selectedTipOption, setSelectedTipOption] = useState('none');
+  const [tipError, setTipError] = useState('');
 
   useEffect(() => {
     fetch('/api/menus')
@@ -34,7 +35,7 @@ function MenuPreview() {
     console.log(`Added ${item.name}${size ? ` (${size})` : ''} to cart`);
   };
 
-  const removeFromOrder = (index) => {
+  const removeFromOrder = index => {
     const updatedOrder = order.filter((_, itemIndex) => itemIndex !== index);
     setOrder(updatedOrder);
     localStorage.setItem('cart', JSON.stringify(updatedOrder));
@@ -74,9 +75,10 @@ function MenuPreview() {
     const parsedTipAmount = parseFloat(temporaryTipAmount);
     if (!isNaN(parsedTipAmount)) {
       setTipAmount(parsedTipAmount);
+      setTipError('');
       closeTipPopup();
     } else {
-      // Handle invalid input, e.g., show an error message
+      setTipError('Please enter a valid tip amount');
     }
   };
 
@@ -87,8 +89,8 @@ function MenuPreview() {
       setTemporaryTipAmount(customTipInputRef.current.value);
     }
   };
-  
-  const handleTipSelection = (option) => {
+
+  const handleTipSelection = option => {
     const subtotal = calculateSubtotal();
     setSelectedTipOption(option);
     if (option !== 'custom' && option !== 'none') {
@@ -108,6 +110,7 @@ function MenuPreview() {
   const TipPopup = () => (
     <div className="tip-popup">
       <div className="tip-options">
+        {tipError && <div className="tip-error">{tipError}</div>}
         <button
           className={selectedTipOption === 'none' ? 'selected' : ''}
           onClick={() => handleTipSelection('none')}
@@ -133,10 +136,10 @@ function MenuPreview() {
           20%
         </button>
         <div>
-          <input 
+          <input
             ref={customTipInputRef}
-            type="number" 
-            placeholder="Custom Tip" 
+            type="number"
+            placeholder="Custom Tip"
             defaultValue={temporaryTipAmount}
             onChange={handleCustomTipChange}
             min="0"
@@ -159,8 +162,8 @@ function MenuPreview() {
 
   const taxAmount = subtotal * 0.0975; // 9.75% tax
   return (
-    <div className='menu-preview-container'>
-      <aside className='menu-categories'>
+    <div className="menu-preview-container">
+      <aside className="menu-categories">
         {menus.map((menu, menuIndex) => (
           <div key={menuIndex}>
             <h2>{menu.menuType}</h2>
@@ -168,7 +171,9 @@ function MenuPreview() {
               <button
                 key={categoryIndex}
                 onClick={() => setSelectedCategory(category.categoryName)}
-                className={`category-button ${selectedCategory === category.categoryName ? 'active' : ''}`}
+                className={`category-button ${
+                  selectedCategory === category.categoryName ? 'active' : ''
+                }`}
               >
                 {category.categoryName}
               </button>
@@ -176,30 +181,36 @@ function MenuPreview() {
           </div>
         ))}
       </aside>
-      
-      <section className='menu-items'>
-        {menus.map((menu) =>
-          menu.categories.map((category) =>
+
+      <section className="menu-items">
+        {menus.map(menu =>
+          menu.categories.map(category =>
             category.categoryName === selectedCategory
               ? category.items.map((item, itemIndex) => (
-                  <div key={itemIndex} className='item'>
+                  <div key={itemIndex} className="item">
                     <span>{item.name}</span>
-                    <span className='item-price'>
-                      {item.size && typeof item.size === 'object'
-                        ? Object.entries(item.size).map(([sizeKey, sizePrice]) => (
+                    <span className="item-price">
+                      {item.size && typeof item.size === 'object' ? (
+                        Object.entries(item.size).map(
+                          ([sizeKey, sizePrice]) => (
                             <div key={sizeKey}>
                               {sizeKey}: ${sizePrice.toFixed(2)}
-                              <button onClick={() => addToOrder(item, sizeKey)}>Add {sizeKey.toUpperCase()} to Cart</button>
+                              <button onClick={() => addToOrder(item, sizeKey)}>
+                                Add {sizeKey.toUpperCase()} to Cart
+                              </button>
                             </div>
-                          ))
-                        : (
-                            <>
-                              {typeof item.price === 'number'
-                                ? `$${item.price.toFixed(2)}`
-                                : 'Price not available'}
-                              <button onClick={() => addToOrder(item)}>Add to Cart</button>
-                            </>
-                          )}
+                          )
+                        )
+                      ) : (
+                        <>
+                          {typeof item.price === 'number'
+                            ? `$${item.price.toFixed(2)}`
+                            : 'Price not available'}
+                          <button onClick={() => addToOrder(item)}>
+                            Add to Cart
+                          </button>
+                        </>
+                      )}
                     </span>
                   </div>
                 ))
@@ -208,24 +219,28 @@ function MenuPreview() {
         )}
       </section>
 
-      
-      <aside className='order-summary'>
+      <aside className="order-summary">
         <h3>Your Order</h3>
         {order.map((item, index) => (
-          <div key={index} className='order-item'>
-            <span>{item.name}{item.selectedSize ? ` (${item.selectedSize})` : ''}</span>
-            <button 
-              className='remove-from-cart-button' 
+          <div key={index} className="order-item">
+            <span>
+              {item.name}
+              {item.selectedSize ? ` (${item.selectedSize})` : ''}
+            </span>
+            <button
+              className="remove-from-cart-button"
               onClick={() => removeFromOrder(index)}
             >
               Remove from Cart
             </button>
           </div>
         ))}
-        <div className='order-total'>Subtotal: ${subtotal.toFixed(2)}</div>
-        <div className='tax-amount'>Tax: ${taxAmount.toFixed(2)}</div>
+        <div className="order-total">Subtotal: ${subtotal.toFixed(2)}</div>
+        <div className="tax-amount">Tax: ${taxAmount.toFixed(2)}</div>
         <button onClick={openTipPopup}>Choose Tip</button>
-        <div className='total-amount'>Total: ${calculateTotal().toFixed(2)}</div>
+        <div className="total-amount">
+          Total: ${calculateTotal().toFixed(2)}
+        </div>
       </aside>
       {isTipPopupOpen && <TipPopup />}
     </div>
