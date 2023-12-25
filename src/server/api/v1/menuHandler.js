@@ -2,7 +2,6 @@ import queryMenus from './mongoQuery.js';
 
 const menuHandler = app => {
   app.get('/api/menus', async (req, res) => {
-    console.log('RECEIVED GET REQUEST');
     try {
       const menus = await queryMenus();
       res.json(menus);
