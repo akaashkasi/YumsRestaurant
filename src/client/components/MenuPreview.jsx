@@ -1,5 +1,7 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
+import React from 'react';
 import '../components/css/MenuPreview.css';
+import ModalOverlay from './ModalOverlay';
 
 function MenuPreview() {
   const [menus, setMenus] = useState([]);
@@ -10,6 +12,12 @@ function MenuPreview() {
   const [temporaryTipAmount, setTemporaryTipAmount] = useState(0);
   const [selectedTipOption, setSelectedTipOption] = useState('none');
   const [tipError, setTipError] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [additionalInstructions, setAdditionalInstructions] = useState('');
+  const [selectedSub, setSelectedSub] = useState('');
+  const [currentItem, setCurrentItem] = useState(null);
+
+  const subOptions = ['Steak and Cheese', 'Fish', 'Chicken', 'Hoagie', 'Turkey', 'Ham and Cheese'];
 
   useEffect(() => {
     fetch('/api/menus')
@@ -28,12 +36,63 @@ function MenuPreview() {
   }, []);
 
   const addToOrder = (item, size = null) => {
-    const orderItem = { ...item, selectedSize: size };
+    // Include selected sub-option in item name if available
+    const itemName = selectedSub ? `${item.name} (${selectedSub})` : item.name;
+  
+    const orderItem = {
+      ...item,
+      name: itemName, // Updated item name with selected sub-option
+      selectedSize: size,
+      additionalInstructions // Add additional instructions to the item
+    };
     const updatedOrder = [...order, orderItem];
     setOrder(updatedOrder);
     localStorage.setItem('cart', JSON.stringify(updatedOrder));
-    console.log(`Added ${item.name}${size ? ` (${size})` : ''} to cart`);
+    console.log(`Added ${itemName}${size ? ` (${size})` : ''} to cart`);
   };
+
+  const openModal = (item) => {
+    setCurrentItem(item);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const confirmModal = () => {
+    if (currentItem) {
+      const newItem = { 
+        ...currentItem, 
+        selectedSub, 
+        additionalInstructions 
+      };
+      addToOrder(newItem);
+      setIsModalOpen(false);
+      setSelectedSub('');
+      setAdditionalInstructions('');
+    }
+  };
+
+  const renderSubSelection = useCallback(() => (
+    currentItem && (currentItem.name === "6\" Sub Lunch Special" || currentItem.name === "12\" Sub with Fries and Drink") ? (     
+      <div className="sub-selection">
+        <label>Select a sub:</label>
+        {subOptions.map((sub, index) => (
+          <label key={index}>
+            <input
+              type="radio"
+              name="subOption"
+              value={sub}
+              checked={selectedSub === sub}
+              onChange={(e) => setSelectedSub(e.target.value)}
+            />
+            {sub}
+          </label>
+        ))}
+      </div>
+    ) : null), [currentItem]
+  );
 
   const removeFromOrder = index => {
     const updatedOrder = order.filter((_, itemIndex) => itemIndex !== index);
@@ -171,9 +230,7 @@ function MenuPreview() {
               <button
                 key={categoryIndex}
                 onClick={() => setSelectedCategory(category.categoryName)}
-                className={`category-button ${
-                  selectedCategory === category.categoryName ? 'active' : ''
-                }`}
+                className={`category-button ${selectedCategory === category.categoryName ? 'active' : ''}`}
               >
                 {category.categoryName}
               </button>
@@ -191,22 +248,20 @@ function MenuPreview() {
                     <span>{item.name}</span>
                     <span className="item-price">
                       {item.size && typeof item.size === 'object' ? (
-                        Object.entries(item.size).map(
-                          ([sizeKey, sizePrice]) => (
-                            <div key={sizeKey}>
-                              {sizeKey}: ${sizePrice.toFixed(2)}
-                              <button onClick={() => addToOrder(item, sizeKey)}>
-                                Add {sizeKey.toUpperCase()} to Cart
-                              </button>
-                            </div>
-                          )
-                        )
+                        Object.entries(item.size).map(([sizeKey, sizePrice]) => (
+                          <div key={sizeKey}>
+                            {sizeKey}: ${sizePrice.toFixed(2)}
+                            <button className="add-to-cart-button" onClick={() => openModal(item)}>
+                              Add {sizeKey.toUpperCase()} to Cart
+                            </button>
+                          </div>
+                        ))
                       ) : (
                         <>
                           {typeof item.price === 'number'
                             ? `$${item.price.toFixed(2)}`
                             : 'Price not available'}
-                          <button onClick={() => addToOrder(item)}>
+                          <button className="add-to-cart-button" onClick={() => openModal(item)}>
                             Add to Cart
                           </button>
                         </>
@@ -219,6 +274,18 @@ function MenuPreview() {
         )}
       </section>
 
+      {isModalOpen && (
+        <ModalOverlay
+          currentItem={currentItem}
+          selectedSub={selectedSub}
+          additionalInstructions={additionalInstructions}
+          setAdditionalInstructions={setAdditionalInstructions}
+          confirmModal={confirmModal}
+          closeModal={closeModal}
+          renderSubSelection={renderSubSelection}
+        />
+      )}
+
       <aside className="order-summary">
         <h3>Your Order</h3>
         {order.map((item, index) => (
@@ -226,6 +293,7 @@ function MenuPreview() {
             <span>
               {item.name}
               {item.selectedSize ? ` (${item.selectedSize})` : ''}
+              {item.additionalInstructions && <div className="additional-instructions">{item.additionalInstructions}</div>}
             </span>
             <button
               className="remove-from-cart-button"
@@ -243,7 +311,7 @@ function MenuPreview() {
         </div>
       </aside>
       {isTipPopupOpen && <TipPopup />}
-    </div>
+  </div>
   );
 }
 
