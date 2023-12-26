@@ -31,6 +31,10 @@ function App() {
     setCartItems(prevItems => prevItems.filter(item => item.id !== itemId));
     setIsLoading(false);
   };
+  const handleCheckout = () => {
+    console.log('Proceeding to checkout', cartItems);
+    // Add your logic to navigate to the checkout page or handle checkout
+  };
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
@@ -46,7 +50,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route
               path="/menu"
-              element={<MenuPreview onAddToCart={addToCart} />}
+              element={<MenuPreview onCheckout={handleCheckout} />}
             />
             <Route path="/contact" element={<Contact />} />
             <Route path="/location" element={<Location />} />

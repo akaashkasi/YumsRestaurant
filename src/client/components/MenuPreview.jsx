@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../components/css/MenuPreview.css';
 import { useContext } from 'react';
 import CartContext from '../context/CartContext';
@@ -6,7 +7,7 @@ import PropTypes from 'prop-types';
 import ModalOverlay from './ModalOverlay';
 import { v4 as uuidv4 } from 'uuid';
 
-function MenuPreview() {
+function MenuPreview({ onCheckout }) {
   const [menus, setMenus] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [order, setOrder] = useState([]);
@@ -20,6 +21,8 @@ function MenuPreview() {
   const [selectedSub, setSelectedSub] = useState('');
   const [currentItem, setCurrentItem] = useState(null);
   const { addToCart, setTipAmount } = useContext(CartContext);
+
+  let navigate = useNavigate();
 
   useEffect(() => {
     fetch('/api/menus')
@@ -47,6 +50,11 @@ function MenuPreview() {
       setLocalTipAmount(parseFloat(savedTipAmount) || 0);
     }
   }, []);
+
+  const handleCheckout = () => {
+    onCheckout(order); // Pass the current order to the onCheckout function
+    navigate('/checkout');
+  };
 
   const addToOrder = (item, size = null) => {
     // Include selected sub-option in item name if available
@@ -372,10 +380,16 @@ function MenuPreview() {
         </div>
         <button onClick={openTipPopup}>Choose Tip</button>
         <div className="total-amount">Total: ${calculateTotal()}</div>
+        <button onClick={handleCheckout} className="proceed-button">
+          Proceed to Checkout
+        </button>
       </aside>
       {isTipPopupOpen && <TipPopup />}
     </div>
   );
 }
 
+MenuPreview.propTypes = {
+  onCheckout: PropTypes.func.isRequired,
+};
 export default MenuPreview;
