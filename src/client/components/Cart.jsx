@@ -1,16 +1,16 @@
-// components/Cart.jsx
-import { useState } from 'react';
+import { useContext } from 'react';
+import CartContext from '../context/CartContext';
+import PropTypes from 'prop-types';
 import '../components/css/Cart.css';
+import { useNavigate } from 'react-router-dom';
 
-function Cart() {
-  const [cartItems, setCartItems] = useState([]);
+function Cart({ onCheckout }) {
+  let navigate = useNavigate();
+  const { cartItems, removeFromCart } = useContext(CartContext);
 
-  // const handleAddToCart = (item) => {
-  //     setCartItems([...cartItems, item]);
-  // };
-
-  const handleRemoveFromCart = itemId => {
-    setCartItems(cartItems.filter(item => item.id !== itemId));
+  const goToCheckout = () => {
+    onCheckout(cartItems);
+    navigate('/checkout');
   };
 
   return (
@@ -21,17 +21,23 @@ function Cart() {
           {cartItems.map(item => (
             <li key={item.id}>
               <span>{item.name}</span>
-              <button onClick={() => handleRemoveFromCart(item.id)}>
-                Remove
-              </button>
+              <span>${item.price.toFixed(2)}</span>
+              <button onClick={() => removeFromCart(item.id)}>Remove</button>
             </li>
           ))}
         </ul>
       ) : (
         <p>Your cart is empty.</p>
       )}
+      <button className="proceed-button" onClick={goToCheckout}>
+        Proceed to Checkout
+      </button>
     </section>
   );
 }
+
+Cart.propTypes = {
+  onCheckout: PropTypes.func.isRequired,
+};
 
 export default Cart;

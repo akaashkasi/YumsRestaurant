@@ -1,41 +1,64 @@
 /* components/Cart.css */
 .cart {
+  max-width: 700px;
+  margin: 20px auto;
   padding: 20px;
-  background-color: #fff;
-  color: #333;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
-  margin: 30px auto;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .cart h2 {
-  color: #333;
-  font-size: 1.5em;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
   margin-bottom: 20px;
+  color: #333;
   text-align: center;
 }
 
 .cart ul {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
+  margin: 0;
 }
 
-.cart ul li {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
+.cart li {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
 }
 
-.cart ul li span {
-  flex-grow: 1;
+.cart li:last-child {
+  border-bottom: none;
 }
 
-.cart ul li button {
+.cart span {
+  font-size: 1em;
+  color: #333;
+}
+
+.cart button {
   padding: 5px 10px;
-  background-color: #e44d26;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cart button:hover {
+  background-color: #c82333;
+}
+
+.proceed-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #28a745;
   color: white;
   border: none;
   border-radius: 5px;
@@ -43,14 +66,8 @@
   transition: background-color 0.2s ease;
 }
 
-.cart ul li button:hover {
-  background-color: #cb3a21;
-}
-
-.cart p {
-  text-align: center;
-  color: #777;
-  font-style: italic;
+.proceed-button:hover {
+  background-color: #218838;
 }
 
 /* Responsive adjustments */

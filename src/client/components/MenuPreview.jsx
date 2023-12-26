@@ -1,12 +1,16 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import '../components/css/MenuPreview.css';
+import { useContext } from 'react';
+import CartContext from '../context/CartContext';
+import PropTypes from 'prop-types';
 import ModalOverlay from './ModalOverlay';
+import { v4 as uuidv4 } from 'uuid';
 
 function MenuPreview() {
   const [menus, setMenus] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [order, setOrder] = useState([]);
-  const [tipAmount, setTipAmount] = useState(0);
+  const [localTipAmount, setLocalTipAmount] = useState(0);
   const [isTipPopupOpen, setIsTipPopupOpen] = useState(false);
   const [temporaryTipAmount, setTemporaryTipAmount] = useState(0);
   const [selectedTipOption, setSelectedTipOption] = useState('none');
@@ -15,6 +19,7 @@ function MenuPreview() {
   const [additionalInstructions, setAdditionalInstructions] = useState('');
   const [selectedSub, setSelectedSub] = useState('');
   const [currentItem, setCurrentItem] = useState(null);
+  const { addToCart, setTipAmount } = useContext(CartContext);
 
   useEffect(() => {
     fetch('/api/menus')
@@ -37,6 +42,10 @@ function MenuPreview() {
     if (savedCart) {
       setOrder(JSON.parse(savedCart));
     }
+    const savedTipAmount = localStorage.getItem('tipAmount');
+    if (savedTipAmount) {
+      setLocalTipAmount(parseFloat(savedTipAmount) || 0);
+    }
   }, []);
 
   const addToOrder = (item, size = null) => {
@@ -45,14 +54,16 @@ function MenuPreview() {
 
     const orderItem = {
       ...item,
+      id: uuidv4(),
       name: itemName, // Updated item name with selected sub-option
       selectedSize: size,
       additionalInstructions, // Add additional instructions to the item
     };
     const updatedOrder = [...order, orderItem];
     setOrder(updatedOrder);
-    localStorage.setItem('cart', JSON.stringify(updatedOrder));
+    // // localStorage.setItem('cart', JSON.stringify(updatedOrder));
     console.log(`Added ${itemName}${size ? ` (${size})` : ''} to cart`);
+    addToCart(orderItem);
   };
 
   const openModal = item => {
@@ -133,7 +144,12 @@ function MenuPreview() {
     }, 0);
 
     const taxAmount = subtotal * 0.0975; // 9.75% tax
-    return subtotal + taxAmount + tipAmount;
+
+    // Ensure that localTipAmount is converted to a number
+    const numericTipAmount = Number(localTipAmount);
+
+    const total = subtotal + taxAmount + numericTipAmount;
+    return total.toFixed(2);
   };
 
   const calculateSubtotal = () => {
@@ -154,9 +170,11 @@ function MenuPreview() {
     setIsTipPopupOpen(false);
   };
   const saveTipAmount = () => {
-    const parsedTipAmount = parseFloat(temporaryTipAmount);
+    const parsedTipAmount = parseFloat(temporaryTipAmount).toFixed(2);
     if (!isNaN(parsedTipAmount)) {
+      setLocalTipAmount(parsedTipAmount);
       setTipAmount(parsedTipAmount);
+      localStorage.setItem('tipAmount', parsedTipAmount);
       setTipError('');
       closeTipPopup();
     } else {
@@ -189,50 +207,53 @@ function MenuPreview() {
     return isNaN(number) ? '0.00' : number.toFixed(2);
   };
 
-  const TipPopup = () => (
-    <div className="tip-popup">
-      <div className="tip-options">
-        {tipError && <div className="tip-error">{tipError}</div>}
-        <button
-          className={selectedTipOption === 'none' ? 'selected' : ''}
-          onClick={() => handleTipSelection('none')}
-        >
-          No Tip
-        </button>
-        <button
-          className={selectedTipOption === '10%' ? 'selected' : ''}
-          onClick={() => handleTipSelection('10%')}
-        >
-          10%
-        </button>
-        <button
-          className={selectedTipOption === '15%' ? 'selected' : ''}
-          onClick={() => handleTipSelection('15%')}
-        >
-          15%
-        </button>
-        <button
-          className={selectedTipOption === '20%' ? 'selected' : ''}
-          onClick={() => handleTipSelection('20%')}
-        >
-          20%
-        </button>
-        <div>
-          <input
-            ref={customTipInputRef}
-            type="number"
-            placeholder="Custom Tip"
-            defaultValue={temporaryTipAmount}
-            onChange={handleCustomTipChange}
-            min="0"
-            step="0.01"
-          />
-          <div>Selected Tip: ${formatTipAmount()}</div>
-          <button onClick={saveTipAmount}>Save</button>
+  const TipPopup = () => {
+    const formattedTipAmount = parseFloat(temporaryTipAmount).toFixed(2);
+    return (
+      <div className="tip-popup">
+        <div className="tip-options">
+          {tipError && <div className="tip-error">{tipError}</div>}
+          <button
+            className={selectedTipOption === 'none' ? 'selected' : ''}
+            onClick={() => handleTipSelection('none')}
+          >
+            No Tip
+          </button>
+          <button
+            className={selectedTipOption === '10%' ? 'selected' : ''}
+            onClick={() => handleTipSelection('10%')}
+          >
+            10%
+          </button>
+          <button
+            className={selectedTipOption === '15%' ? 'selected' : ''}
+            onClick={() => handleTipSelection('15%')}
+          >
+            15%
+          </button>
+          <button
+            className={selectedTipOption === '20%' ? 'selected' : ''}
+            onClick={() => handleTipSelection('20%')}
+          >
+            20%
+          </button>
+          <div>
+            <input
+              ref={customTipInputRef}
+              type="number"
+              placeholder="Custom Tip"
+              defaultValue={formattedTipAmount}
+              onChange={handleCustomTipChange}
+              min="0"
+              step="0.01"
+            />
+            <div>Selected Tip: ${formatTipAmount()}</div>
+            <button onClick={saveTipAmount}>Save</button>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const subtotal = order.reduce((total, item) => {
     let itemPrice = item.price || 0;
@@ -243,6 +264,10 @@ function MenuPreview() {
   }, 0);
 
   const taxAmount = subtotal * 0.0975; // 9.75% tax
+
+  MenuPreview.propTypes = {
+    onAddToCart: PropTypes.func.isRequired,
+  };
   return (
     <div className="menu-preview-container">
       <aside className="menu-categories">
@@ -342,10 +367,11 @@ function MenuPreview() {
         ))}
         <div className="order-total">Subtotal: ${subtotal.toFixed(2)}</div>
         <div className="tax-amount">Tax: ${taxAmount.toFixed(2)}</div>
-        <button onClick={openTipPopup}>Choose Tip</button>
-        <div className="total-amount">
-          Total: ${calculateTotal().toFixed(2)}
+        <div className="tip-amount">
+          Tip: ${Number(localTipAmount).toFixed(2)}
         </div>
+        <button onClick={openTipPopup}>Choose Tip</button>
+        <div className="total-amount">Total: ${calculateTotal()}</div>
       </aside>
       {isTipPopupOpen && <TipPopup />}
     </div>
