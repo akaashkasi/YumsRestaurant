@@ -375,9 +375,16 @@ function MenuPreview({ onCheckout }) {
         </div>
         <button onClick={openTipPopup}>Choose Tip</button>
         <div className="total-amount">Total: ${calculateTotal()}</div>
-        <button onClick={handleCheckout} className="proceed-button">
-          Proceed to Checkout
-        </button>
+        {cartItems.length === 0 ? (
+          <p className="empty-cart-message">
+            Your cart is currently empty. Please add items to your cart before
+            proceeding to checkout.
+          </p>
+        ) : (
+          <button onClick={handleCheckout} className="proceed-button">
+            Proceed to Checkout
+          </button>
+        )}
       </aside>
       {isTipPopupOpen && <TipPopup />}
     </div>

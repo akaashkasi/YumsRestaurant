@@ -28,9 +28,16 @@ function Cart({ onCheckout }) {
           ))}
         </ul>
       ) : (
-        <p>Your cart is empty.</p>
+        <p>
+          Your cart is currently empty. Please add items to your cart before
+          proceeding to checkout.
+        </p>
       )}
-      <button className="proceed-button" onClick={goToCheckout}>
+      <button
+        className="proceed-button"
+        onClick={goToCheckout}
+        disabled={cartItems.length === 0} // Button is disabled if cart is empty
+      >
         Proceed to Checkout
       </button>
     </section>
