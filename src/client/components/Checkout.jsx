@@ -1,5 +1,5 @@
 // Checkout.jsx
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import CartContext from '../context/CartContext';
 import '../components/css/Checkout.css';
 
@@ -8,9 +8,7 @@ function Checkout() {
 
   const calculateTotal = () => {
     const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
-
     const numericTipAmount = Number(tipAmount);
-
     return subtotal + taxAmount + numericTipAmount;
   };
 
@@ -18,6 +16,20 @@ function Checkout() {
     console.log('Processing payment...');
   };
 
+  // Check if cart is empty
+  if (cartItems.length === 0) {
+    return (
+      <div className="checkout-container">
+        <h2>Checkout</h2>
+        <p>
+          Your cart is currently empty. Please add items to your cart before
+          proceeding to checkout.
+        </p>
+      </div>
+    );
+  }
+
+  // Normal checkout display
   return (
     <div className="checkout-container">
       <h2>Checkout</h2>

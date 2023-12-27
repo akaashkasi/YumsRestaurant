@@ -1,42 +1,74 @@
+/* Checkout.css */
 .checkout-container {
   max-width: 600px;
-  margin: 0 auto;
+  margin: 30px auto;
   padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
 }
 
 .checkout-container h2 {
   text-align: center;
-  color: #333;
+  color: #333333;
+  margin-bottom: 20px;
+  font-size: 2em;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
 }
 
 .checkout-list {
   list-style: none;
   padding: 0;
+  margin-bottom: 20px;
 }
 
 .checkout-list li {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checkout-list li:last-child {
+  border-bottom: none;
+}
+
+.checkout-tax,
+.checkout-tip,
+.checkout-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 1em;
+}
+
+.checkout-tax {
+  color: #555555;
+}
+
+.checkout-tip {
+  color: #4caf50;
 }
 
 .checkout-total {
-  text-align: right;
-  margin-top: 20px;
   font-size: 1.2em;
   font-weight: bold;
+  color: #007bff;
+  margin-top: 20px;
 }
 
 .pay-now-button {
   display: block;
   width: 100%;
-  padding: 10px 20px;
-  margin-top: 20px;
-  font-size: 1em;
+  padding: 15px;
+  margin-top: 30px;
+  font-size: 1.1em;
   color: white;
-  background-color: #007bff;
+  background-color: #28a745;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -44,5 +76,29 @@
 }
 
 .pay-now-button:hover {
-  background-color: #0056b3;
+  background-color: #218838;
+}
+
+.empty-cart-message {
+  text-align: center;
+  color: #ff6b6b;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .checkout-container {
+    margin: 20px 15px;
+    padding: 15px;
+  }
+
+  .checkout-container h2 {
+    font-size: 1.5em;
+  }
+
+  .pay-now-button {
+    padding: 10px;
+    font-size: 1em;
+  }
 }
