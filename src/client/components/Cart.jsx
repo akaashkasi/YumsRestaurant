@@ -9,6 +9,7 @@ function Cart({ onCheckout }) {
   const { cartItems, removeFromCart } = useContext(CartContext);
 
   const goToCheckout = () => {
+    localStorage.setItem('checkoutReload', 'true');
     onCheckout(cartItems);
     navigate('/checkout');
   };
