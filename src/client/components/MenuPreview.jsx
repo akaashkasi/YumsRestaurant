@@ -21,6 +21,7 @@ function MenuPreview({ onCheckout }) {
   const [selectedSub, setSelectedSub] = useState('');
   const [currentItem, setCurrentItem] = useState(null);
   const { addToCart, setTipAmount } = useContext(CartContext);
+  const { cartItems, removeFromCart } = useContext(CartContext);
 
   let navigate = useNavigate();
 
@@ -136,34 +137,30 @@ function MenuPreview({ onCheckout }) {
     }
   }, [currentItem, selectedSub]); // Remove subOptions from the dependency array
 
-  const removeFromOrder = index => {
-    const updatedOrder = order.filter((_, itemIndex) => itemIndex !== index);
-    setOrder(updatedOrder);
-    localStorage.setItem('cart', JSON.stringify(updatedOrder));
+  const removeFromOrder = itemId => {
+    removeFromCart(itemId);
     console.log(`Removed item from cart`);
   };
+
   const calculateTotal = () => {
-    const subtotal = order.reduce((total, item) => {
+    const subtotal = cartItems.reduce((total, item) => {
       let itemPrice = item.price || 0;
-      if (item.selectedSize && item.size[item.selectedSize]) {
+      if (item.selectedSize && item.size && item.size[item.selectedSize]) {
         itemPrice = item.size[item.selectedSize];
       }
       return total + itemPrice;
     }, 0);
 
-    const taxAmount = subtotal * 0.0975; // 9.75% tax
-
-    // Ensure that localTipAmount is converted to a number
+    const taxAmount = subtotal * 0.0975; // Adjust tax percentage as needed
     const numericTipAmount = Number(localTipAmount);
-
     const total = subtotal + taxAmount + numericTipAmount;
     return total.toFixed(2);
   };
 
   const calculateSubtotal = () => {
-    return order.reduce((total, item) => {
+    return cartItems.reduce((total, item) => {
       let itemPrice = item.price || 0;
-      if (item.selectedSize && item.size[item.selectedSize]) {
+      if (item.selectedSize && item.size && item.size[item.selectedSize]) {
         itemPrice = item.size[item.selectedSize];
       }
       return total + itemPrice;
@@ -263,16 +260,6 @@ function MenuPreview({ onCheckout }) {
     );
   };
 
-  const subtotal = order.reduce((total, item) => {
-    let itemPrice = item.price || 0;
-    if (item.selectedSize && item.size[item.selectedSize]) {
-      itemPrice = item.size[item.selectedSize];
-    }
-    return total + itemPrice;
-  }, 0);
-
-  const taxAmount = subtotal * 0.0975; // 9.75% tax
-
   MenuPreview.propTypes = {
     onAddToCart: PropTypes.func.isRequired,
   };
@@ -354,8 +341,8 @@ function MenuPreview({ onCheckout }) {
 
       <aside className="order-summary">
         <h3>Your Order</h3>
-        {order.map((item, index) => (
-          <div key={index} className="order-item">
+        {cartItems.map(item => (
+          <div key={item.id} className="order-item">
             <span>
               {item.name}
               {item.selectedSize ? ` (${item.selectedSize})` : ''}
@@ -367,14 +354,23 @@ function MenuPreview({ onCheckout }) {
             </span>
             <button
               className="remove-from-cart-button"
-              onClick={() => removeFromOrder(index)}
+              onClick={() => removeFromOrder(item.id)}
             >
               Remove from Cart
             </button>
           </div>
         ))}
-        <div className="order-total">Subtotal: ${subtotal.toFixed(2)}</div>
-        <div className="tax-amount">Tax: ${taxAmount.toFixed(2)}</div>
+        <div className="order-total">
+          Subtotal: ${calculateSubtotal().toFixed(2)}
+        </div>
+        <div className="tax-amount">
+          Tax: $
+          {(
+            calculateTotal() -
+            calculateSubtotal() -
+            Number(localTipAmount)
+          ).toFixed(2)}
+        </div>
         <div className="tip-amount">
           Tip: ${Number(localTipAmount).toFixed(2)}
         </div>

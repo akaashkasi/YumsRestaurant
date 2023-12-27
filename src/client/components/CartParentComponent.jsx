@@ -1,17 +1,11 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import Cart from './Cart.jsx';
 import MenuPreview from './MenuPreview.jsx';
+import CartContext from '../context/CartContext.jsx';
 
 function CartParentComponent() {
-  const [cartItems, setCartItems] = useState([]);
-
-  const addToCart = item => {
-    setCartItems([...cartItems, item]);
-  };
-
-  const removeFromCart = itemId => {
-    setCartItems(cartItems.filter(item => item.id !== itemId));
-  };
+  //const [cartItems, setCartItems] = useState([]);
+  const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
 
   const handleCheckout = cartItems => {
     // Implement your checkout logic here
