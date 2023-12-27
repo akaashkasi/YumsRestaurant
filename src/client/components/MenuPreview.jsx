@@ -53,7 +53,6 @@ function MenuPreview({ onCheckout }) {
   }, []);
 
   const handleCheckout = () => {
-    localStorage.setItem('checkoutReload', 'true');
     onCheckout(order); // Pass the current order to the onCheckout function
     navigate('/checkout');
   };
@@ -71,7 +70,6 @@ function MenuPreview({ onCheckout }) {
     };
     const updatedOrder = [...order, orderItem];
     setOrder(updatedOrder);
-    // // localStorage.setItem('cart', JSON.stringify(updatedOrder));
     console.log(`Added ${itemName}${size ? ` (${size})` : ''} to cart`);
     addToCart(orderItem);
   };
