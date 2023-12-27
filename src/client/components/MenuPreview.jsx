@@ -259,9 +259,6 @@ function MenuPreview({ onCheckout }) {
     );
   };
 
-  MenuPreview.propTypes = {
-    onAddToCart: PropTypes.func.isRequired,
-  };
   return (
     <div className="menu-preview-container">
       <aside className="menu-categories">

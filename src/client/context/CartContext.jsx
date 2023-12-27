@@ -5,6 +5,7 @@ export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [taxAmount, setTaxAmount] = useState(0);
+  const [showPopup, setShowPopup] = useState(false); // State for showing popup
   const [tipAmount, setTipAmount] = useState(() => {
     // Retrieve tip amount from localStorage or default to 0
     const savedTipAmount = localStorage.getItem('tipAmount');
@@ -44,6 +45,8 @@ export const CartProvider = ({ children }) => {
         taxAmount, // Tax amount
         tipAmount, // Tip amount
         setTipAmount: updateTipAmount, // Function to update tip amount
+        showPopup, // Provide showPopup state
+        setShowPopup, // Provide function to set showPopup state
       }}
     >
       {children}
