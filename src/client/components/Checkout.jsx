@@ -1,15 +1,26 @@
 // Checkout.jsx
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import CartContext from '../context/CartContext';
 import '../components/css/Checkout.css';
 
 function Checkout() {
   const { cartItems, taxAmount, tipAmount } = useContext(CartContext);
+  const location = useLocation();
+  useEffect(() => {
+    if (location.pathname === '/checkout') {
+      const checkoutReload = localStorage.getItem('checkoutReload');
+
+      if (checkoutReload === 'true') {
+        localStorage.removeItem('checkoutReload');
+        window.location.reload();
+      }
+    }
+  }, [location.pathname]);
 
   const calculateTotal = () => {
     const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
 
-    // Convert tipAmount to a number
     const numericTipAmount = Number(tipAmount);
 
     return subtotal + taxAmount + numericTipAmount;

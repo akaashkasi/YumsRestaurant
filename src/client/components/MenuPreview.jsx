@@ -52,6 +52,7 @@ function MenuPreview({ onCheckout }) {
   }, []);
 
   const handleCheckout = () => {
+    localStorage.setItem('checkoutReload', 'true');
     onCheckout(order); // Pass the current order to the onCheckout function
     navigate('/checkout');
   };
