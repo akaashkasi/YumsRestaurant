@@ -15,6 +15,7 @@ import Footer from './client/components/Footer';
 import Cart from './client/components/Cart';
 import LoadingSpinner from './client/components/LoadingSpinner';
 import Checkout from './client/components/Checkout';
+import Payment from './client/components/Payment';
 import { CartProvider, CartContext } from './client/context/CartContext';
 import PropTypes from 'prop-types';
 import './App.css';
@@ -89,6 +90,7 @@ function App() {
             />
             <Route path="/contact" element={<Contact />} />
             <Route path="/location" element={<Location />} />
+            <Route path="/payment" element={<Payment />} />
             <Route path="/" element={<Hero />} />
             <Route path="/cart" element={<Cart onCheckout={onCheckout} />} />
             <Route

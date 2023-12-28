@@ -1,37 +1,54 @@
-/* Checkout.css */
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --text-color: #333;
+  --background-color: #f9f9f9;
+  --border-color: #d3d3d3;
+  --font-family: 'Helvetica Neue', sans-serif;
+}
+
 .checkout-container {
-  max-width: 600px;
-  margin: 30px auto;
-  padding: 20px;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-family: 'Arial', sans-serif;
-  color: black;
+  max-width: 800px;
+  margin: 2.5rem auto;
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background-color: var(--background-color);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  font-family: var(--font-family);
+  color: var(--text-color);
 }
 
 .checkout-container h2 {
   text-align: center;
-  color: #333333;
-  margin-bottom: 20px;
-  font-size: 2em;
-  border-bottom: 2px solid #007bff;
-  padding-bottom: 10px;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  font-size: 2.2em;
+  border-bottom: 3px solid #3498db;
+  padding-bottom: 12px;
 }
 
 .checkout-list {
-  list-style: none;
+  list-style-type: none;
   padding: 0;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .checkout-list li {
-  padding: 10px 0;
-  border-bottom: 1px solid #e0e0e0;
-  display: flex;
+  padding: 20px;
+  border-bottom: 1px solid #e6e6e6;
+  display: grid;
   justify-content: space-between;
+  grid-template-columns: 2fr 1fr auto; /* Adjust grid columns */
+  gap: 20px;
   align-items: center;
+  font-size: 1em;
+  background-color: #ffffff;
+  transition: background-color 0.3s;
+}
+
+.checkout-list li:hover {
+  background-color: #f0f0f0;
 }
 
 .checkout-list li:last-child {
@@ -43,63 +60,97 @@
 .checkout-total {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0;
+  align-items: center;
+  padding: 15px 20px;
   font-size: 1em;
+  background-color: #f8f8f8;
+  margin: 10px 0;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid var(--primary-color);
+  font-weight: bold;
 }
 
 .checkout-tax {
-  color: #555555;
-}
-
-.checkout-tip {
-  color: #4caf50;
+  color: var(--text-color);
+  background-color: #f0f0f0;
 }
 
 .checkout-total {
-  font-size: 1.2em;
-  font-weight: bold;
-  color: #007bff;
-  margin-top: 20px;
+  color: #2980b9;
+  font-size: 1.4em;
+  background-color: #e8e8e8;
+  border-top: 2px solid #d3d3d3;
+  margin-top: 15px;
+  padding-top: 15px;
+}
+
+.checkout-section-label {
+  font-size: 0.9em;
+  color: #555;
+}
+
+.checkout-section-value {
+  color: #000;
+  font-size: 1.1em;
+}
+
+.checkout-tip {
+  color: var(--secondary-color);
+  background-color: #f0f0f0;
+  font-size: 1.1em;
 }
 
 .pay-now-button {
   display: block;
   width: 100%;
-  padding: 15px;
-  margin-top: 30px;
-  font-size: 1.1em;
+  padding: 18px;
+  margin-top: 35px;
+  font-size: 1.2em;
   color: white;
-  background-color: #28a745;
+  background-color: #2ecc71;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
 }
 
 .pay-now-button:hover {
-  background-color: #218838;
+  background-color: #27ae60;
 }
 
-.empty-cart-message {
-  text-align: center;
-  color: #ff6b6b;
-  font-style: italic;
-  margin-top: 20px;
+.item-name {
+  text-align: left; /* Align name to the left */
+  font-weight: bold;
+  color: #34495e;
+}
+
+.item-price {
+  text-align: right; /* Align price to the right */
+  font-size: 0.9em;
+  color: #7f8c8d;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .checkout-container {
-    margin: 20px 15px;
-    padding: 15px;
+  .checkout-list li {
+    grid-template-columns: 3fr 1fr auto; /* Adjust for smaller screens */
+    gap: 10px;
   }
 
-  .checkout-container h2 {
-    font-size: 1.5em;
+  .item-name,
+  .item-price {
+    font-size: 0.9em;
   }
 
-  .pay-now-button {
-    padding: 10px;
+  .checkout-tax,
+  .checkout-tip,
+  .checkout-total {
     font-size: 1em;
+    padding: 10px 15px;
+  }
+
+  .checkout-total {
+    font-size: 1.2em;
   }
 }

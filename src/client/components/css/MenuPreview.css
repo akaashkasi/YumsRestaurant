@@ -16,6 +16,9 @@ select {
   --border-color: #ddd;
 }
 
+.empty-cart-message {
+  color: red;
+}
 /* Container */
 .menu-preview-container {
   display: flex;
@@ -100,12 +103,12 @@ button {
 }
 
 .remove-from-cart-button {
-  background-color: var(--secondary-color);
+  background-color: rgb(255, 0, 0);
   color: white;
 }
 
 .remove-from-cart-button:hover {
-  background-color: #fc0202; /* Darker red */
+  background-color: #c71f1f; /* Darker red */
 }
 
 /* Input and Select Styles */

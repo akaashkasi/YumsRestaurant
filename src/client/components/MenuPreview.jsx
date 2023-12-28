@@ -174,15 +174,15 @@ function MenuPreview({ onCheckout }) {
     setIsTipPopupOpen(false);
   };
   const saveTipAmount = () => {
-    const parsedTipAmount = parseFloat(temporaryTipAmount).toFixed(2);
-    if (!isNaN(parsedTipAmount)) {
-      setLocalTipAmount(parsedTipAmount);
-      setTipAmount(parsedTipAmount);
-      localStorage.setItem('tipAmount', parsedTipAmount);
+    const parsedTipAmount = parseFloat(temporaryTipAmount);
+    if (!isNaN(parsedTipAmount) && parsedTipAmount >= 0) {
+      setLocalTipAmount(parsedTipAmount.toFixed(2));
+      setTipAmount(parsedTipAmount.toFixed(2));
+      localStorage.setItem('tipAmount', parsedTipAmount.toFixed(2));
       setTipError('');
       closeTipPopup();
     } else {
-      setTipError('Please enter a valid tip amount');
+      setTipError('Please enter a valid, non-negative tip amount');
     }
   };
 
@@ -190,7 +190,8 @@ function MenuPreview({ onCheckout }) {
 
   const handleCustomTipChange = () => {
     if (customTipInputRef.current) {
-      setTemporaryTipAmount(customTipInputRef.current.value);
+      const inputTip = parseFloat(customTipInputRef.current.value);
+      setTemporaryTipAmount(inputTip >= 0 ? inputTip.toFixed(2) : '0.00');
     }
   };
 
@@ -200,7 +201,9 @@ function MenuPreview({ onCheckout }) {
     if (option !== 'custom' && option !== 'none') {
       const percentageValue = parseFloat(option) / 100;
       const calculatedTip = subtotal * percentageValue;
-      setTemporaryTipAmount(calculatedTip.toString());
+      setTemporaryTipAmount(
+        calculatedTip >= 0 ? calculatedTip.toFixed(2) : '0.00'
+      );
     } else if (option === 'none') {
       setTemporaryTipAmount('0');
     }
