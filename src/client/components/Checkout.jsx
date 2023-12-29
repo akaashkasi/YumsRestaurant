@@ -1,12 +1,19 @@
 import { useContext, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CartContext from '../context/CartContext';
-import '../components/css/Checkout.css';
+import { v4 as uuidv4 } from 'uuid';
+import './css/Checkout.css';
 
 function Checkout() {
   const navigate = useNavigate();
-  const { cartItems, removeFromCart, taxAmount, setTipAmount } =
-    useContext(CartContext);
+  const {
+    cartItems,
+    removeFromCart,
+    taxAmount,
+    setTipAmount,
+    clearCart,
+    addToCart,
+  } = useContext(CartContext);
   const [isTipPopupOpen, setIsTipPopupOpen] = useState(false);
   const [temporaryTipAmount, setTemporaryTipAmount] = useState(0);
   const [selectedTipOption, setSelectedTipOption] = useState('none');
@@ -69,6 +76,15 @@ function Checkout() {
     return isNaN(number) ? '0.00' : number.toFixed(2);
   };
 
+  const duplicateItem = itemId => {
+    const itemToDuplicate = cartItems.find(item => item.id === itemId);
+    if (itemToDuplicate) {
+      // Assuming you have an 'addItem' function in your context
+      // This function should handle adding a new item to the cart
+      addToCart({ ...itemToDuplicate, id: uuidv4() }); // newId() should generate a unique ID
+    }
+  };
+
   const TipPopup = () => {
     const formattedTipAmount = parseFloat(temporaryTipAmount).toFixed(2);
     return (
@@ -122,6 +138,11 @@ function Checkout() {
     return subtotal + taxAmount + localTipAmount;
   };
 
+  const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+  const addMoreItems = () => {
+    navigate('/menu');
+  };
+
   const handlePayment = () => {
     if (isTipSaved) {
       console.log('Processing payment...');
@@ -147,25 +168,49 @@ function Checkout() {
   // Normal checkout display
   return (
     <div className="checkout-container">
-      <h2>Checkout</h2>
-      <ul className="checkout-list">
-        {cartItems.map(item => (
-          <li key={item.id}>
-            <span className="item-name">{item.name}</span>
-            <span className="item-price">${item.price.toFixed(2)}</span>
-            <button
-              className="remove-item-button"
-              onClick={() => removeFromCart(item.id)}
-            >
-              Remove
-            </button>
-          </li>
+      <h2 className="chinese">Order Summary</h2>
+      <div className="checkout-items">
+        {cartItems.map((item, index) => (
+          <div key={index} className="checkout-item">
+            <div className="item-details">
+              <span className="item-name">{item.name}</span>
+              <span className="item-price">
+                ${Number(item.price).toFixed(2)}
+              </span>
+            </div>
+            <div className="item-actions">
+              <button onClick={() => {}}>Edit</button>
+              <button onClick={() => removeFromCart(item.id)}>Remove</button>
+              <button onClick={() => duplicateItem(item.id)}>Duplicate</button>
+            </div>
+          </div>
         ))}
-      </ul>
-      <p className="checkout-tax">
-        <span className="checkout-section-label">Tax:</span>
-        <span className="checkout-section-value">${taxAmount.toFixed(2)}</span>
-      </p>
+      </div>
+      <div className="actions">
+        <button onClick={clearCart} className="clear-basket">
+          Clear Basket
+        </button>
+        <button onClick={addMoreItems} className="add-more-items">
+          Add more items
+        </button>
+      </div>
+
+      {/* Add-Ons Section */}
+      <div className="add-ons-section">
+        <h3>Complete your meal</h3>
+        <div className="add-ons">{/* Add-on items would be listed here */}</div>
+      </div>
+
+      <div className="checkout-details">
+        <div className="detail subtotal">
+          <span>Subtotal</span>
+          <span>${subtotal.toFixed(2)}</span>
+        </div>
+        <div className="detail tax">
+          <span>Tax (est.)</span>
+          <span>${taxAmount.toFixed(2)}</span>
+        </div>
+      </div>
       <div className="checkout-tip">
         <span className="checkout-section-label">Tip:</span>
         <span className="checkout-section-value">
@@ -174,18 +219,14 @@ function Checkout() {
         <button onClick={openTipPopup}>Edit Tip</button>
         {isTipPopupOpen && <TipPopup />}
       </div>
-      <p className="checkout-total">
+      <p className="detail total">
         <span className="checkout-section-label">Total:</span>
         <span className="checkout-section-value">
           ${calculateTotal().toFixed(2)}
         </span>
       </p>
-      <button
-        className="pay-now-button"
-        onClick={handlePayment}
-        disabled={!isTipSaved}
-      >
-        Pay Now
+      <button className="checkout-button" onClick={handlePayment}>
+        Continue - ${calculateTotal().toFixed(2)}
       </button>
     </div>
   );

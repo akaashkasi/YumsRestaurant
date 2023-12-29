@@ -17,6 +17,7 @@ import LoadingSpinner from './client/components/LoadingSpinner';
 import Checkout from './client/components/Checkout';
 import Payment from './client/components/Payment';
 import { CartProvider, CartContext } from './client/context/CartContext';
+import ThankYou from './client/components/ThankYou';
 import PropTypes from 'prop-types';
 import './App.css';
 
@@ -101,6 +102,7 @@ function App() {
                 </CheckoutGuard>
               }
             />
+            <Route path="/thank-you" element={<ThankYou />} />
           </Routes>
 
           <Footer />

@@ -7,6 +7,62 @@
   --font-family: 'Helvetica Neue', sans-serif;
 }
 
+.chinese {
+  font-family: 'SimSun', serif;
+  font-size: 1.75em; /* Example size */
+  font-weight: bold;
+  color: #333; /* Dark grey for readability */
+  text-align: center;
+  margin: 10px 0;
+  padding: 5px 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  background-color: #f8f8f8; /* Light background */
+  border-bottom: 2px solid #ddd; /* Underline effect */
+}
+
+.checkout-items {
+  /* Styles for the container of all items */
+  margin: 20px 0;
+}
+
+.checkout-item {
+  /* Styles for each individual item */
+  border-bottom: 1px solid #ddd; /* Adds a separator line */
+  padding: 10px 0;
+}
+
+.item-actions button {
+  /* Existing styles */
+  background-color: transparent;
+  border: none;
+  color: red;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: 'SimSun', serif;
+}
+
+.item-actions button:focus {
+  outline: none; /* Removes the default focus outline */
+  /* Add any alternative focus styles here, such as a change in background color, border, etc. */
+  box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.5); /* Example: red glow */
+}
+
+.item-actions button:active {
+  /* New style for when the button is actively clicked */
+  color: darkred;
+}
+
+.item-actions {
+  /* Existing styles */
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
+}
+
 .checkout-container {
   max-width: 800px;
   margin: 2.5rem auto;
@@ -17,8 +73,9 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
   font-family: var(--font-family);
   color: var(--text-color);
+  width: 408px;
+  font-family: Arial, sans-serif;
 }
-
 .checkout-container h2 {
   text-align: center;
   color: #2c3e50;
@@ -27,34 +84,6 @@
   border-bottom: 3px solid #3498db;
   padding-bottom: 12px;
 }
-
-.checkout-list {
-  list-style-type: none;
-  padding: 0;
-  margin-bottom: 25px;
-}
-
-.checkout-list li {
-  padding: 20px;
-  border-bottom: 1px solid #e6e6e6;
-  display: grid;
-  justify-content: space-between;
-  grid-template-columns: 2fr 1fr auto; /* Adjust grid columns */
-  gap: 20px;
-  align-items: center;
-  font-size: 1em;
-  background-color: #ffffff;
-  transition: background-color 0.3s;
-}
-
-.checkout-list li:hover {
-  background-color: #f0f0f0;
-}
-
-.checkout-list li:last-child {
-  border-bottom: none;
-}
-
 .checkout-tax,
 .checkout-tip,
 .checkout-total {
@@ -68,14 +97,12 @@
   border-radius: 6px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-left: 4px solid var(--primary-color);
-  font-weight: bold;
+  font-weight: 700;
 }
-
 .checkout-tax {
   color: var(--text-color);
   background-color: #f0f0f0;
 }
-
 .checkout-total {
   color: #2980b9;
   font-size: 1.4em;
@@ -84,73 +111,151 @@
   margin-top: 15px;
   padding-top: 15px;
 }
-
 .checkout-section-label {
   font-size: 0.9em;
   color: #555;
 }
-
 .checkout-section-value {
   color: #000;
   font-size: 1.1em;
 }
-
 .checkout-tip {
   color: var(--secondary-color);
   background-color: #f0f0f0;
   font-size: 1.1em;
 }
-
-.pay-now-button {
-  display: block;
-  width: 100%;
-  padding: 18px;
-  margin-top: 35px;
-  font-size: 1.2em;
-  color: white;
-  background-color: #2ecc71;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.pay-now-button:hover {
-  background-color: #27ae60;
-}
-
 .item-name {
-  text-align: left; /* Align name to the left */
-  font-weight: bold;
+  text-align: left;
+  font-weight: 700;
+  font-family: 'Simsun', serif;
   color: #34495e;
 }
-
 .item-price {
-  text-align: right; /* Align price to the right */
+  text-align: right;
   font-size: 0.9em;
-  color: #7f8c8d;
+  font-family: 'Simsun', serif;
+  color: #333;
 }
-
-/* Responsive Design */
 @media (max-width: 768px) {
-  .checkout-list li {
-    grid-template-columns: 3fr 1fr auto; /* Adjust for smaller screens */
-    gap: 10px;
-  }
-
   .item-name,
   .item-price {
     font-size: 0.9em;
   }
-
   .checkout-tax,
   .checkout-tip,
   .checkout-total {
     font-size: 1em;
     padding: 10px 15px;
   }
-
   .checkout-total {
     font-size: 1.2em;
   }
+  .chinese {
+    font-size: 1.5em; /* Slightly smaller on mobile */
+  }
+}
+
+.add-ons {
+  border: 1px solid #ccc;
+  padding: 16px;
+  margin: 16px 0;
+}
+.add-ons h3 {
+  margin-bottom: 16px;
+}
+.checkout-details {
+  border-top: 1px solid #ccc;
+  padding-top: 16px;
+}
+.detail {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.checkout-button {
+  width: 100%;
+  background-color: #dc3545;
+  color: #fff;
+  padding: 16px;
+  border: none;
+  border-radius: 8px;
+  margin-top: 16px;
+  cursor: pointer;
+}
+.checkout-button:hover {
+  background-color: #c82333;
+  text-decoration: underline;
+}
+.checkout-details {
+  margin-top: 20px;
+}
+.detail {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+.item-details {
+  /* Styles for the dish name and price section */
+  display: flex;
+  justify-content: space-between; /* Aligns items to opposite ends */
+  margin-bottom: 5px; /* Space between this section and the action buttons */
+}
+.item-name {
+  font-weight: 700;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.clear-basket,
+.add-more-items {
+  /* Common styles for both buttons */
+  cursor: pointer;
+  font-weight: bold;
+  padding: 5px 10px;
+  font-size: 1em;
+  border: none;
+  background: none;
+  font-family: 'SimSun', serif;
+}
+
+.add-more-items {
+  /* Specific styles for 'Add more items' button */
+  color: #0000ff; /* Example blue color */
+}
+
+.clear-basket::before {
+  /* Styles for the trashcan icon */
+  content: '\1F5D1'; /* Trashcan Unicode character */
+  margin-right: 5px;
+  font-size: 1.75em; /* Larger font size for the icon */
+  vertical-align: middle; /* Align the icon vertically with the text */
+}
+
+.clear-basket {
+  color: #ff0000; /* Example red color */
+}
+.add-ons-section {
+  margin-top: 20px;
+}
+.add-ons {
+  display: flex;
+  justify-content: space-between;
+}
+.total {
+  font-size: 1.2em;
+  color: #c82333;
+}
+.checkout-button {
+  width: 100%;
+  background-color: #c82333;
+  color: #fff;
+  padding: 15px;
+  border: none;
+  border-radius: 4px;
+  margin-top: 20px;
+  cursor: pointer;
 }

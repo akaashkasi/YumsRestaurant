@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../components/css/MenuPreview.css';
+import './css/MenuPreview.css';
 import { useContext } from 'react';
 import CartContext from '../context/CartContext';
 import PropTypes from 'prop-types';

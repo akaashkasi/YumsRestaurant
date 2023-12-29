@@ -1,4 +1,4 @@
-import Menu from './menuModel.js'; // Adjust the path
+import Menu from '../../models/menuModel.js'; // Adjust the path
 
 const queryMenus = async () => {
   try {

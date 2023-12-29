@@ -12,6 +12,11 @@ export const CartProvider = ({ children }) => {
     return savedTipAmount !== null ? parseFloat(savedTipAmount) : 0;
   });
 
+  const resetTip = () => {
+    setTipAmount(0); // Reset tip amount to 0
+    localStorage.setItem('tipAmount', '0'); // Update localStorage
+  };
+
   const [cartItems, setCartItems] = useState(() => {
     const savedCart = localStorage.getItem('cart');
     return savedCart ? JSON.parse(savedCart) : [];
@@ -36,15 +41,22 @@ export const CartProvider = ({ children }) => {
     localStorage.setItem('tipAmount', newTipAmount); // Save to localStorage
   };
 
+  const clearCart = () => {
+    setCartItems([]); // Clears the cart
+    resetTip(); // Reset tip amount
+  };
+
   return (
     <CartContext.Provider
       value={{
         cartItems,
         addToCart, // Function to add items to cart
+        clearCart, // Function to clear cart
         removeFromCart, // Function to remove items from cart
         taxAmount, // Tax amount
         tipAmount, // Tip amount
         setTipAmount: updateTipAmount, // Function to update tip amount
+        resetTip, // Function to reset tip amount
         showPopup, // Provide showPopup state
         setShowPopup, // Provide function to set showPopup state
       }}
