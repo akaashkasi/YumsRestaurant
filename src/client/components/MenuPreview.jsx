@@ -19,6 +19,7 @@ function MenuPreview({ onCheckout }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [additionalInstructions, setAdditionalInstructions] = useState('');
   const [selectedSub, setSelectedSub] = useState('');
+  const [menuType, setMenuType] = useState('Chinese'); // Default to Chinese
   const [currentItem, setCurrentItem] = useState(null);
   const { addToCart, setTipAmount } = useContext(CartContext);
   const { cartItems, removeFromCart } = useContext(CartContext);
@@ -57,20 +58,20 @@ function MenuPreview({ onCheckout }) {
     navigate('/checkout');
   };
 
-  const addToOrder = (item, size = null) => {
-    // Include selected sub-option in item name if available
+  const addToOrder = item => {
     const itemName = selectedSub ? `${item.name} (${selectedSub})` : item.name;
+    const hasSizeOptions = item.size && typeof item.size === 'object';
 
     const orderItem = {
       ...item,
       id: uuidv4(),
-      name: itemName, // Updated item name with selected sub-option
-      selectedSize: size,
-      additionalInstructions, // Add additional instructions to the item
+      name: itemName,
+      selectedSize: hasSizeOptions ? selectedSub : null,
+      additionalInstructions,
     };
-    const updatedOrder = [...order, orderItem];
-    setOrder(updatedOrder);
-    console.log(`Added ${itemName}${size ? ` (${size})` : ''} to cart`);
+
+    setOrder([...order, orderItem]);
+    console.log('added', orderItem);
     addToCart(orderItem);
   };
 
@@ -143,6 +144,7 @@ function MenuPreview({ onCheckout }) {
 
   const calculateTotal = () => {
     const subtotal = cartItems.reduce((total, item) => {
+      console.log(item);
       let itemPrice = item.price || 0;
       if (item.selectedSize && item.size && item.size[item.selectedSize]) {
         itemPrice = item.size[item.selectedSize];
@@ -265,22 +267,38 @@ function MenuPreview({ onCheckout }) {
   return (
     <div className="menu-preview-container">
       <aside className="menu-categories">
-        {menus.map((menu, menuIndex) => (
-          <div key={menuIndex}>
-            <h2>{menu.menuType}</h2>
-            {menu.categories.map((category, categoryIndex) => (
-              <button
-                key={categoryIndex}
-                onClick={() => setSelectedCategory(category.categoryName)}
-                className={`category-button ${
-                  selectedCategory === category.categoryName ? 'active' : ''
-                }`}
-              >
-                {category.categoryName}
-              </button>
-            ))}
-          </div>
-        ))}
+        <div className="menu-type-selector">
+          <button
+            className={`menu-type ${menuType === 'Chinese' ? 'selected' : ''}`}
+            onClick={() => setMenuType('Chinese')}
+          >
+            Chinese
+          </button>
+          <button
+            className={`menu-type ${menuType === 'American' ? 'selected' : ''}`}
+            onClick={() => setMenuType('American')}
+          >
+            American
+          </button>
+        </div>
+
+        {menus
+          .filter(menu => menu.menuType === menuType)
+          .map((menu, menuIndex) => (
+            <div key={menuIndex}>
+              {menu.categories.map((category, categoryIndex) => (
+                <button
+                  key={categoryIndex}
+                  onClick={() => setSelectedCategory(category.categoryName)}
+                  className={`category-button ${
+                    selectedCategory === category.categoryName ? 'active' : ''
+                  }`}
+                >
+                  {category.categoryName}
+                </button>
+              ))}
+            </div>
+          ))}
       </aside>
 
       <section className="menu-items">
@@ -292,31 +310,25 @@ function MenuPreview({ onCheckout }) {
                     <span>{item.name}</span>
                     <span className="item-price">
                       {item.size && typeof item.size === 'object' ? (
-                        Object.entries(item.size).map(
-                          ([sizeKey, sizePrice]) => (
-                            <div key={sizeKey}>
-                              {sizeKey}: ${sizePrice.toFixed(2)}
-                              <button
-                                className="add-to-cart-button"
-                                onClick={() => openModal(item)}
-                              >
-                                Add {sizeKey.toUpperCase()} to Cart
-                              </button>
-                            </div>
-                          )
-                        )
-                      ) : (
-                        <>
-                          {typeof item.price === 'number'
-                            ? `$${item.price.toFixed(2)}`
-                            : 'Price not available'}
+                        Object.entries(item.size).map(([sizeKey]) => (
                           <button
-                            className="add-to-cart-button"
-                            onClick={() => openModal(item)}
+                            key={sizeKey} // Added unique key here
+                            onClick={() => {
+                              setSelectedSub(sizeKey); // Set the selected size
+                              openModal(item); // Open modal for additional options
+                            }}
                           >
-                            Add to Cart
+                            Add {sizeKey.toUpperCase()} to Cart
                           </button>
-                        </>
+                        ))
+                      ) : (
+                        <button
+                          onClick={() => {
+                            openModal(item);
+                          }}
+                        >
+                          Add to Cart
+                        </button>
                       )}
                     </span>
                   </div>

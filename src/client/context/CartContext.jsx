@@ -21,11 +21,24 @@ export const CartProvider = ({ children }) => {
     const savedCart = localStorage.getItem('cart');
     return savedCart ? JSON.parse(savedCart) : [];
   });
-
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
-    const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
-    setTaxAmount(subtotal * 0.0975);
+
+    // Calculate subtotal based on item size and selectedSize or direct price
+    const subtotal = cartItems.reduce((total, item) => {
+      let itemPrice =
+        item.size && item.selectedSize
+          ? item.size[item.selectedSize]
+          : item.price;
+
+      // Ensure itemPrice is a number
+      itemPrice = parseFloat(itemPrice);
+      return total + (isNaN(itemPrice) ? 0 : itemPrice);
+    }, 0);
+
+    // Calculate tax based on subtotal
+    const calculatedTax = parseFloat((subtotal * 0.0975).toFixed(2));
+    setTaxAmount(calculatedTax);
   }, [cartItems]);
 
   const addToCart = item => {

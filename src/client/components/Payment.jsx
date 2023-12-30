@@ -21,35 +21,27 @@ function Payment() {
   const handleFormSubmit = event => {
     event.preventDefault();
 
+    let errors = [];
     if (!firstName.trim()) {
-      alert('Enter your first name');
-      return;
+      errors.push('first name');
     }
-
     if (!lastName.trim()) {
-      alert('Enter your last name');
-      return;
+      errors.push('last name');
+    }
+    if (confirmationMethod === 'email' && !email.trim()) {
+      errors.push('email');
+    }
+    if (confirmationMethod === 'phone' && !phone.trim()) {
+      errors.push('phone number');
     }
 
-    if (!phone.trim()) {
-      alert('Enter your phone number');
-      return;
-    }
-    if (confirmationMethod === email && !email.trim()) {
-      alert('Enter your email');
-      return;
-    } else if (confirmationMethod === phone && !phone.trim()) {
-      alert('Enter your phone number');
+    if (errors.length > 0) {
+      alert(`Please enter your ${errors.join(', ')}.`);
       return;
     }
 
     handleFinalizePayment();
   };
-
-  const subtotal = cartItems.reduce(
-    (total, item) => total + (item.price || 0),
-    0
-  );
 
   const [localTipAmount] = useState(() => {
     const savedTipAmount = localStorage.getItem('tipAmount');
@@ -59,8 +51,26 @@ function Payment() {
   const totalTaxAmount = taxAmount || 0;
   const totalTipAmount = localTipAmount || 0;
 
+  const calculateSubtotal = () => {
+    console.log('cartItems', cartItems);
+    return cartItems.reduce((total, item) => {
+      let itemPrice =
+        item.size && item.selectedSize
+          ? item.size[item.selectedSize]
+          : item.price;
+      return total + itemPrice;
+    }, 0);
+  };
+
   const calculateTotal = () => {
-    return subtotal + totalTaxAmount + totalTipAmount;
+    const subtotal = calculateSubtotal();
+    const validTaxAmount = !isNaN(taxAmount) ? taxAmount : 0;
+    const validLocalTipAmount = !isNaN(localTipAmount)
+      ? parseFloat(localTipAmount)
+      : 0;
+
+    const total = subtotal + validTaxAmount + validLocalTipAmount;
+    return total;
   };
 
   const goToOrderSummary = () => {
@@ -70,10 +80,35 @@ function Payment() {
   const handleFinalizePayment = async () => {
     setIsSubmitting(true);
     const orderId = uuidv4().slice(0, 5);
+    const formatOrderDetails = () => {
+      return cartItems
+        .map(item => {
+          const price =
+            item.size && item.selectedSize
+              ? item.size[item.selectedSize]
+              : item.price;
+          return `Item: ${item.name}\nSize: ${
+            item.selectedSize || 'N/A'
+          }\nPrice: ${
+            isNaN(price) ? 'N/A' : `$${price.toFixed(2)}`
+          }\nInstructions: ${item.additionalInstructions || 'None'}`;
+        })
+        .join('\n\n');
+    };
+    const formattedOrderDetails = formatOrderDetails();
+    const orderDateTime = new Date().toISOString();
+    const readableOrderTime = new Date(orderDateTime).toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
     const data = {
       name: `${firstName} ${lastName}`,
-      orderDetails: JSON.stringify(cartItems),
-      orderTime: new Date().toISOString(),
+      orderDetails: formattedOrderDetails,
+      orderTime: readableOrderTime,
       orderNumber: orderId,
       paymentType: 'Credit Card',
       totalPrice: calculateTotal(),
@@ -212,7 +247,12 @@ function Payment() {
           {cartItems.map(item => (
             <li key={item.id}>
               <span className="item-name">{item.name}</span>
-              <span className="item-price">${item.price.toFixed(2)}</span>
+              <span className="item-price">
+                $
+                {item.size && item.selectedSize
+                  ? Number(item.size[item.selectedSize]).toFixed(2)
+                  : Number(item.price).toFixed(2)}
+              </span>
             </li>
           ))}
         </ul>

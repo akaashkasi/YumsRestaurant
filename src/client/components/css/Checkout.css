@@ -49,6 +49,25 @@
   box-shadow: 0 0 3px 1px rgba(255, 0, 0, 0.5); /* Example: red glow */
 }
 
+button:focus,
+input:focus {
+  outline: 2px solid var(--primary-color); /* Focus outline for better visibility */
+}
+
+.button-animation-effect {
+  transition: transform 0.2s ease;
+}
+
+.button-animation-effect:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.button-hover-effect:hover {
+  background-color: var(--secondary-color);
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
 .item-actions button:active {
   /* New style for when the button is actively clicked */
   color: darkred;
@@ -83,6 +102,19 @@
   font-size: 2.2em;
   border-bottom: 3px solid #3498db;
   padding-bottom: 12px;
+}
+.custom-tip-input {
+  border: 1px solid var(--border-color);
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+/* Style for Tip Error Message */
+.tip-error {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 5px;
 }
 .checkout-tax,
 .checkout-tip,
@@ -150,8 +182,21 @@
   .checkout-total {
     font-size: 1.2em;
   }
+  .item-actions button {
+    font-size: 0.8em; /* Smaller font size for buttons */
+  }
   .chinese {
     font-size: 1.5em; /* Slightly smaller on mobile */
+  }
+  .checkout-container {
+    width: 95%; /* More width on smaller screens */
+    padding: 1rem;
+  }
+  .checkout-details,
+  .checkout-tip,
+  .checkout-tax {
+    padding: 10px; /* Reduced padding */
+    font-size: 0.9em; /* Smaller font size */
   }
 }
 

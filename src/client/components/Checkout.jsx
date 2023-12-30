@@ -34,11 +34,11 @@ function Checkout() {
     setIsTipPopupOpen(false);
   };
   const saveTipAmount = () => {
-    const parsedTipAmount = parseFloat(temporaryTipAmount);
-    if (!isNaN(parsedTipAmount) && parsedTipAmount >= 0) {
-      setLocalTipAmount(parsedTipAmount);
-      setTipAmount(parsedTipAmount);
-      localStorage.setItem('tipAmount', parsedTipAmount.toFixed(2));
+    if (!isNaN(temporaryTipAmount) && temporaryTipAmount >= 0) {
+      const formattedTipAmount = parseFloat(temporaryTipAmount).toFixed(2);
+      setLocalTipAmount(formattedTipAmount);
+      setTipAmount(formattedTipAmount); // Update context
+      localStorage.setItem('tipAmount', formattedTipAmount);
       setIsTipSaved(true);
       closeTipPopup();
     } else {
@@ -48,26 +48,24 @@ function Checkout() {
 
   const customTipInputRef = useRef(null);
 
-  const handleCustomTipChange = () => {
-    if (customTipInputRef.current) {
-      const inputTip = parseFloat(customTipInputRef.current.value);
-      setTemporaryTipAmount(inputTip >= 0 ? inputTip.toFixed(2) : '0.00');
+  const handleCustomTipChange = e => {
+    const inputTip = parseFloat(e.target.value);
+    if (!isNaN(inputTip) && inputTip >= 0) {
+      setTemporaryTipAmount(inputTip);
+    } else {
+      setTemporaryTipAmount(0);
     }
   };
 
   const handleTipSelection = option => {
-    const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
     setSelectedTipOption(option);
-
-    // Calculate the tip based on the subtotal
-    if (option !== 'custom' && option !== 'none') {
-      const percentageValue = parseFloat(option) / 100;
-      const calculatedTip = subtotal * percentageValue;
-      setTemporaryTipAmount(
-        calculatedTip >= 0 ? calculatedTip.toFixed(2) : '0.00'
-      );
-    } else if (option === 'none') {
-      setTemporaryTipAmount('0');
+    if (option === 'none') {
+      setTemporaryTipAmount(0);
+    } else if (option !== 'custom') {
+      const percentage = parseFloat(option.replace('%', '')) / 100;
+      const subtotal = calculateSubtotal();
+      const tip = subtotal * percentage;
+      setTemporaryTipAmount(tip);
     }
   };
 
@@ -134,11 +132,26 @@ function Checkout() {
   };
 
   const calculateTotal = () => {
-    const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
-    return subtotal + taxAmount + localTipAmount;
+    const subtotal = calculateSubtotal();
+    const validTaxAmount = !isNaN(taxAmount) ? taxAmount : 0;
+    const validLocalTipAmount = !isNaN(localTipAmount)
+      ? parseFloat(localTipAmount)
+      : 0;
+
+    const total = subtotal + validTaxAmount + validLocalTipAmount;
+    return total;
   };
 
-  const subtotal = cartItems.reduce((total, item) => total + item.price, 0);
+  const calculateSubtotal = () => {
+    console.log('cartItems', cartItems);
+    return cartItems.reduce((total, item) => {
+      let itemPrice =
+        item.size && item.selectedSize
+          ? item.size[item.selectedSize]
+          : item.price;
+      return total + itemPrice;
+    }, 0);
+  };
   const addMoreItems = () => {
     navigate('/menu');
   };
@@ -175,7 +188,10 @@ function Checkout() {
             <div className="item-details">
               <span className="item-name">{item.name}</span>
               <span className="item-price">
-                ${Number(item.price).toFixed(2)}
+                $
+                {item.size && item.selectedSize
+                  ? Number(item.size[item.selectedSize]).toFixed(2)
+                  : Number(item.price).toFixed(2)}
               </span>
             </div>
             <div className="item-actions">
@@ -204,7 +220,7 @@ function Checkout() {
       <div className="checkout-details">
         <div className="detail subtotal">
           <span>Subtotal</span>
-          <span>${subtotal.toFixed(2)}</span>
+          <span>${Number(calculateSubtotal()).toFixed(2)}</span>
         </div>
         <div className="detail tax">
           <span>Tax (est.)</span>
@@ -214,7 +230,7 @@ function Checkout() {
       <div className="checkout-tip">
         <span className="checkout-section-label">Tip:</span>
         <span className="checkout-section-value">
-          ${localTipAmount.toFixed(2)}
+          ${Number(localTipAmount).toFixed(2)}
         </span>
         <button onClick={openTipPopup}>Edit Tip</button>
         {isTipPopupOpen && <TipPopup />}
